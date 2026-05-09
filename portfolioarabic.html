@@ -1,0 +1,2573 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بورتفوليو مصممة جرافيك</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+/* =============================================
+   CSS VARIABLES - غير الألوان هنا
+   ============================================= */
+:root {
+  --primary: #9112BC;
+  --soft-purple: #AE75DA;
+  --yellow: #FAEB92;
+  --black: #000000;
+  --white: #FFFFFF;
+  --bg: #0a0010;
+  --bg2: #0d0018;
+  --card-bg: rgba(145, 18, 188, 0.08);
+  --glass: rgba(255,255,255,0.04);
+  --border: rgba(174, 117, 218, 0.2);
+  --text: #e8e0f0;
+  --text-muted: #9b85b0;
+  --radius: 24px;
+  --font-title: 'Cairo', sans-serif;
+  --font-body: 'Tajawal', sans-serif;
+  --font-size-base: 16px;
+  --transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* =============================================
+   RESET & BASE
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: var(--font-size-base); }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  direction: rtl;
+  text-align: right;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+
+/* =============================================
+   SCROLL PROGRESS BAR
+   ============================================= */
+#scroll-progress {
+  position: fixed;
+  top: 0; right: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(to left, var(--yellow), var(--primary));
+  z-index: 9999;
+  transition: width 0.1s;
+}
+
+/* =============================================
+   ANIMATED BACKGROUND
+   ============================================= */
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  animation: blobFloat 12s ease-in-out infinite;
+}
+.blob1 { width: 500px; height: 500px; background: var(--primary); top: -150px; right: -100px; animation-duration: 14s; }
+.blob2 { width: 350px; height: 350px; background: var(--yellow); bottom: 20%; left: -80px; animation-duration: 10s; animation-delay: -4s; }
+.blob3 { width: 280px; height: 280px; background: var(--soft-purple); top: 50%; right: 30%; animation-duration: 16s; animation-delay: -8s; }
+.blob4 { width: 220px; height: 220px; background: var(--yellow); bottom: -80px; right: 20%; animation-duration: 11s; animation-delay: -2s; opacity: 0.12; }
+
+@keyframes blobFloat {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(30px,-40px) scale(1.05); }
+  66% { transform: translate(-20px,30px) scale(0.95); }
+}
+
+/* Floating particles */
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.particle {
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--soft-purple);
+  opacity: 0;
+  animation: particleFly 8s linear infinite;
+}
+@keyframes particleFly {
+  0% { opacity: 0; transform: translateY(100vh) scale(0); }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.3; }
+  100% { opacity: 0; transform: translateY(-20px) scale(1.5); }
+}
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+nav {
+  position: fixed;
+  top: 12px; left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 1100px;
+  z-index: 1000;
+  background: rgba(10, 0, 16, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 60px;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition);
+}
+nav.scrolled {
+  background: rgba(10, 0, 16, 0.92);
+  box-shadow: 0 8px 40px rgba(145, 18, 188, 0.2);
+}
+.nav-logo {
+  font-family: var(--font-title);
+  font-weight: 900;
+  font-size: 1.3rem;
+  background: linear-gradient(135deg, var(--yellow), var(--soft-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.nav-links a {
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  border-radius: 30px;
+  transition: var(--transition);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.nav-links a:hover, .nav-links a.active {
+  background: rgba(145, 18, 188, 0.2);
+  color: var(--yellow);
+}
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px;
+}
+.hamburger span {
+  width: 24px; height: 2px;
+  background: var(--soft-purple);
+  border-radius: 2px;
+  transition: var(--transition);
+  display: block;
+}
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,0,16,0.97);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  transition: var(--transition);
+}
+.mobile-menu a:hover { color: var(--yellow); }
+
+/* =============================================
+   HERO SECTION
+   ============================================= */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 120px 20px 80px;
+  overflow: hidden;
+}
+.hero-floating {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.float-el {
+  position: absolute;
+  animation: floatEl 6s ease-in-out infinite;
+  opacity: 0.5;
+  font-size: 2rem;
+}
+.float-el:nth-child(1) { top: 15%; right: 8%; animation-delay: 0s; }
+.float-el:nth-child(2) { top: 25%; left: 5%; animation-delay: -2s; font-size: 1.4rem; }
+.float-el:nth-child(3) { bottom: 20%; right: 12%; animation-delay: -1s; font-size: 1.6rem; }
+.float-el:nth-child(4) { bottom: 30%; left: 8%; animation-delay: -3s; font-size: 2.4rem; }
+.float-el:nth-child(5) { top: 40%; right: 3%; animation-delay: -4s; font-size: 1.2rem; }
+.float-el:nth-child(6) { top: 60%; left: 4%; animation-delay: -1.5s; }
+@keyframes floatEl {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(8deg); }
+}
+.hero-stars { position: absolute; inset: 0; pointer-events: none; }
+.star {
+  position: absolute;
+  width: 3px; height: 3px;
+  background: var(--yellow);
+  border-radius: 50%;
+  animation: twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(145, 18, 188, 0.15);
+  border: 1px solid rgba(250, 235, 146, 0.3);
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  color: var(--yellow);
+  margin-bottom: 24px;
+  animation: fadeDown 0.8s ease forwards;
+}
+.hero-badge span { animation: pulse-dot 2s ease-in-out infinite; display: inline-block; width: 8px; height: 8px; background: var(--yellow); border-radius: 50%; }
+@keyframes pulse-dot { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.6; } }
+.hero-name {
+  font-family: var(--font-title);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #fff 0%, var(--soft-purple) 50%, var(--yellow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeDown 0.8s 0.2s ease both;
+}
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--soft-purple);
+  margin-bottom: 12px;
+  font-weight: 600;
+  animation: fadeDown 0.8s 0.3s ease both;
+}
+.hero-services-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 28px;
+  animation: fadeDown 0.8s 0.4s ease both;
+}
+.hero-tag {
+  background: rgba(174, 117, 218, 0.15);
+  border: 1px solid rgba(174, 117, 218, 0.3);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 0.82rem;
+  color: var(--soft-purple);
+}
+.hero-typing {
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  color: var(--text-muted);
+  min-height: 2em;
+  margin-bottom: 40px;
+  animation: fadeDown 0.8s 0.5s ease both;
+}
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: var(--yellow);
+  margin-right: 2px;
+  animation: blink 0.8s step-end infinite;
+  vertical-align: middle;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.hero-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeDown 0.8s 0.6s ease both;
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--soft-purple));
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 32px;
+  font-family: var(--font-title);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--soft-purple), var(--primary));
+  opacity: 0;
+  transition: var(--transition);
+}
+.btn-primary:hover::before { opacity: 1; }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(145, 18, 188, 0.5); }
+.btn-primary span { position: relative; z-index: 1; }
+.btn-outline {
+  background: transparent;
+  color: var(--yellow);
+  border: 2px solid rgba(250, 235, 146, 0.4);
+  border-radius: 50px;
+  padding: 14px 32px;
+  font-family: var(--font-title);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn-outline:hover {
+  background: rgba(250, 235, 146, 0.1);
+  border-color: var(--yellow);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(250, 235, 146, 0.2);
+}
+
+/* =============================================
+   SECTION BASE
+   ============================================= */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 100px 20px;
+}
+.container { max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--yellow);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+.section-title {
+  font-family: var(--font-title);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 16px;
+  color: var(--white);
+}
+.section-title span {
+  background: linear-gradient(135deg, var(--primary), var(--yellow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.section-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 600px;
+  line-height: 1.8;
+}
+.divider {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(to left, var(--primary), var(--yellow));
+  border-radius: 2px;
+  margin: 16px 0 40px;
+}
+
+/* =============================================
+   ABOUT SECTION
+   ============================================= */
+#about { background: transparent; }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.about-image-wrap {
+  position: relative;
+}
+.about-mockup {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 380px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(145,18,188,0.2), rgba(174,117,218,0.1));
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  position: relative;
+  overflow: hidden;
+}
+.about-mockup::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: calc(var(--radius) + 2px);
+  background: linear-gradient(135deg, var(--primary), transparent, var(--yellow));
+  z-index: -1;
+  animation: rotateBorder 4s linear infinite;
+}
+@keyframes rotateBorder {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.about-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+.about-glow {
+  position: absolute;
+  width: 200px; height: 200px;
+  background: var(--primary);
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+@keyframes pulseGlow { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.2; } 50% { transform: translate(-50%,-50%) scale(1.3); opacity: 0.3; } }
+.about-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(145,18,188,0.12);
+  border: 1px solid rgba(174,117,218,0.25);
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--soft-purple);
+  transition: var(--transition);
+}
+.badge:hover {
+  background: rgba(145,18,188,0.25);
+  color: var(--yellow);
+  border-color: rgba(250,235,146,0.4);
+  transform: translateY(-2px);
+}
+.badge i { color: var(--yellow); font-size: 0.8rem; }
+
+/* =============================================
+   SERVICES SECTION
+   ============================================= */
+#services { background: linear-gradient(180deg, transparent, rgba(145,18,188,0.04), transparent); }
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+.service-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  transition: var(--transition);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(145,18,188,0.15), transparent);
+  opacity: 0;
+  transition: var(--transition);
+}
+.service-card:hover { transform: translateY(-8px); border-color: rgba(174,117,218,0.5); box-shadow: 0 20px 60px rgba(145,18,188,0.25), 0 0 40px rgba(145,18,188,0.1); }
+.service-card:hover::before { opacity: 1; }
+.service-icon {
+  width: 54px; height: 54px;
+  background: linear-gradient(135deg, var(--primary), var(--soft-purple));
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+  transition: var(--transition);
+  position: relative;
+  z-index: 1;
+}
+.service-card:hover .service-icon { transform: scale(1.1) rotate(5deg); box-shadow: 0 8px 24px rgba(145,18,188,0.4); }
+.service-title {
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--white);
+  position: relative;
+  z-index: 1;
+}
+.service-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+/* =============================================
+   PORTFOLIO SECTION
+   ============================================= */
+#portfolio { background: transparent; }
+.portfolio-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.tab-btn {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 10px 22px;
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.tab-btn:hover, .tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--soft-purple));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 8px 24px rgba(145,18,188,0.35);
+}
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+.portfolio-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: pointer;
+  position: relative;
+  animation: fadeUp 0.6s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.portfolio-card:hover { transform: translateY(-10px); border-color: rgba(174,117,218,0.5); box-shadow: 0 24px 60px rgba(145,18,188,0.3); }
+.portfolio-preview {
+  width: 100%;
+  aspect-ratio: 4/3;
+  position: relative;
+  overflow: hidden;
+}
+.portfolio-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+}
+.portfolio-card:hover .portfolio-preview img { transform: scale(1.05); }
+.mockup-design {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portfolio-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.85));
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  opacity: 0;
+  transition: var(--transition);
+}
+.portfolio-card:hover .portfolio-overlay { opacity: 1; }
+.view-btn {
+  background: linear-gradient(135deg, var(--primary), var(--soft-purple));
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+  transition: var(--transition);
+}
+.view-btn:hover { transform: scale(1.03); }
+.portfolio-info {
+  padding: 20px;
+}
+.portfolio-cat {
+  font-size: 0.75rem;
+  color: var(--yellow);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.portfolio-title-card {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.portfolio-desc-card {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.link-icon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 30px; height: 30px;
+  background: rgba(145,18,188,0.8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: white;
+  backdrop-filter: blur(5px);
+}
+
+/* Mockup Designs */
+.mockup-social {
+  background: linear-gradient(135deg, #1a0028 0%, #2d0050 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+.mockup-ebook {
+  background: linear-gradient(135deg, #0d001a 0%, #1a0035 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.mockup-kids {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+.mockup-print {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+}
+.mockup-doc {
+  background: linear-gradient(135deg, #0f0020, #1c0035);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  gap: 8px;
+}
+.mockup-line { height: 8px; border-radius: 4px; background: rgba(255,255,255,0.15); }
+.mockup-line.purple { background: linear-gradient(to left, var(--primary), var(--soft-purple)); }
+.mockup-line.yellow { background: linear-gradient(to left, var(--yellow), rgba(250,235,146,0.4)); }
+
+/* =============================================
+   WHY ME SECTION
+   ============================================= */
+#why {
+  background: linear-gradient(135deg, rgba(145,18,188,0.06), transparent, rgba(250,235,146,0.04));
+}
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+.why-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: var(--transition);
+}
+.why-card:hover { transform: translateY(-6px); border-color: rgba(250,235,146,0.3); box-shadow: 0 16px 40px rgba(145,18,188,0.2); }
+.why-icon {
+  width: 44px; height: 44px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(250,235,146,0.2), rgba(145,18,188,0.2));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border: 1px solid rgba(250,235,146,0.2);
+}
+.why-text h4 {
+  font-family: var(--font-title);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.why-text p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+/* =============================================
+   CONTACT SECTION
+   ============================================= */
+#contact {
+  background: linear-gradient(180deg, transparent, rgba(145,18,188,0.06));
+}
+.contact-wrapper {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 8px);
+  padding: 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.contact-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 300px; height: 300px;
+  background: var(--primary);
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+}
+.contact-items {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin: 40px 0;
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(145,18,188,0.1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 24px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.contact-item:hover { border-color: rgba(174,117,218,0.4); background: rgba(145,18,188,0.18); transform: translateY(-4px); }
+.contact-item i { color: var(--yellow); font-size: 1.3rem; }
+.contact-item-info { text-align: right; }
+.contact-item-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px; }
+.contact-item-value { font-size: 0.95rem; font-weight: 600; color: var(--white); }
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 40px;
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+.btn-whatsapp:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(37,211,102,0.35); }
+
+/* =============================================
+   FOOTER
+   ============================================= */
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
+}
+footer span { color: var(--soft-purple); }
+
+/* =============================================
+   BACK TO TOP
+   ============================================= */
+#back-top {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--primary), var(--soft-purple));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 900;
+  opacity: 0;
+  transform: scale(0);
+  transition: var(--transition);
+  box-shadow: 0 8px 24px rgba(145,18,188,0.4);
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+}
+#back-top.visible { opacity: 1; transform: scale(1); }
+#back-top:hover { transform: scale(1.1); }
+
+/* =============================================
+   SCROLL REVEAL
+   ============================================= */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* =============================================
+   MODAL
+   ============================================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: #0f0020;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  transform: scale(0.9);
+  transition: var(--transition);
+  position: relative;
+  text-align: center;
+}
+.modal-overlay.open .modal { transform: scale(1); }
+.modal-close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.modal-close:hover { background: rgba(145,18,188,0.3); }
+.modal-preview { width: 100%; border-radius: 16px; overflow: hidden; margin-bottom: 20px; background: var(--card-bg); min-height: 200px; display: flex; align-items: center; justify-content: center; }
+.modal-preview img { width: 100%; height: auto; object-fit: cover; }
+.modal-title { font-family: var(--font-title); font-size: 1.3rem; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+.modal-cat { font-size: 0.8rem; color: var(--yellow); font-weight: 700; margin-bottom: 12px; letter-spacing: 1px; }
+.modal-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+
+/* =============================================
+   ADMIN PANEL
+   ============================================= */
+#admin-btn {
+  position: fixed;
+  bottom: 90px;
+  left: 30px;
+  background: linear-gradient(135deg, #1a0028, #2d0050);
+  border: 1px solid rgba(174,117,218,0.4);
+  border-radius: 50px;
+  padding: 12px 20px;
+  color: var(--soft-purple);
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+#admin-btn:hover { border-color: var(--soft-purple); color: var(--yellow); }
+
+.admin-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: none;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+}
+.admin-overlay.open { display: flex; }
+.admin-panel {
+  width: 420px;
+  max-width: 95vw;
+  height: 100vh;
+  background: #080012;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  direction: rtl;
+  flex-shrink: 0;
+}
+.admin-header {
+  padding: 24px 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+  margin-bottom: 0;
+  position: sticky;
+  top: 0;
+  background: #080012;
+  z-index: 10;
+}
+.admin-header h2 { font-family: var(--font-title); font-size: 1.2rem; font-weight: 800; color: var(--white); }
+.admin-close { background: none; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer; transition: var(--transition); }
+.admin-close:hover { color: var(--yellow); }
+.admin-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.admin-tab {
+  padding: 14px 18px;
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: var(--transition);
+  background: none;
+  border-right: none;
+  border-left: none;
+  border-top: none;
+}
+.admin-tab.active { color: var(--yellow); border-bottom-color: var(--yellow); }
+.admin-content { padding: 20px 24px; display: none; }
+.admin-content.active { display: block; }
+.admin-field { margin-bottom: 18px; }
+.admin-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.admin-input, .admin-textarea, .admin-select {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  transition: var(--transition);
+  direction: rtl;
+}
+.admin-input:focus, .admin-textarea:focus, .admin-select:focus {
+  outline: none;
+  border-color: var(--soft-purple);
+  background: rgba(174,117,218,0.08);
+}
+.admin-textarea { min-height: 80px; resize: vertical; }
+.admin-select option { background: #1a0028; }
+.admin-btn-save {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary), var(--soft-purple));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 8px;
+}
+.admin-btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
+.admin-btn-danger {
+  width: 100%;
+  background: rgba(220,38,38,0.15);
+  color: #f87171;
+  border: 1px solid rgba(220,38,38,0.3);
+  border-radius: 12px;
+  padding: 10px;
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 8px;
+}
+.admin-btn-danger:hover { background: rgba(220,38,38,0.25); }
+.admin-btn-outline {
+  width: 100%;
+  background: transparent;
+  color: var(--soft-purple);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 8px;
+}
+.admin-btn-outline:hover { border-color: var(--soft-purple); background: rgba(174,117,218,0.1); }
+.admin-section-title {
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--soft-purple);
+  margin: 20px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.admin-item-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.admin-item-card .item-title { font-weight: 600; font-size: 0.9rem; color: var(--white); margin-bottom: 4px; }
+.admin-item-card .item-sub { font-size: 0.8rem; color: var(--text-muted); }
+.admin-item-actions { display: flex; gap: 8px; margin-top: 10px; }
+.admin-item-actions button {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  font-family: var(--font-body);
+}
+.btn-edit { background: rgba(145,18,188,0.2); color: var(--soft-purple); }
+.btn-edit:hover { background: rgba(145,18,188,0.35); }
+.btn-delete { background: rgba(220,38,38,0.15); color: #f87171; }
+.btn-delete:hover { background: rgba(220,38,38,0.25); }
+.add-form { background: rgba(145,18,188,0.07); border: 1px dashed rgba(174,117,218,0.3); border-radius: 14px; padding: 16px; margin-top: 12px; }
+.add-form-title { font-size: 0.85rem; font-weight: 700; color: var(--yellow); margin-bottom: 12px; }
+.color-swatch-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.color-swatch { width: 32px; height: 32px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: var(--transition); }
+.color-swatch.selected { border-color: var(--yellow); transform: scale(1.1); }
+.theme-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.theme-option {
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: var(--transition);
+}
+.theme-option.selected { border-color: var(--yellow); }
+.admin-preview-img { width: 100%; aspect-ratio: 16/9; border-radius: 10px; object-fit: cover; margin-top: 8px; border: 1px solid var(--border); }
+.admin-success {
+  background: rgba(34,197,94,0.15);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #86efac;
+  font-size: 0.85rem;
+  margin-top: 10px;
+  display: none;
+  text-align: center;
+}
+.admin-success.show { display: block; }
+.range-row { display: flex; align-items: center; gap: 12px; }
+.range-row input[type="range"] { flex: 1; accent-color: var(--primary); }
+.range-row span { font-size: 0.85rem; color: var(--yellow); min-width: 40px; text-align: center; }
+
+/* =============================================
+   LOGIN MODAL
+   ============================================= */
+.login-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+}
+.login-modal.open { display: flex; }
+.login-box {
+  background: #0f0020;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 44px 40px;
+  width: 360px;
+  max-width: 90vw;
+  text-align: center;
+}
+.login-icon { font-size: 3rem; margin-bottom: 16px; }
+.login-title { font-family: var(--font-title); font-size: 1.3rem; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+.login-sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 28px; }
+.login-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: var(--white);
+  font-size: 1.4rem;
+  text-align: center;
+  letter-spacing: 12px;
+  font-family: var(--font-title);
+  margin-bottom: 16px;
+  direction: ltr;
+}
+.login-input:focus { outline: none; border-color: var(--soft-purple); }
+.login-error { color: #f87171; font-size: 0.85rem; margin-bottom: 12px; display: none; }
+.login-error.show { display: block; }
+.login-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary), var(--soft-purple));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-family: var(--font-title);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.login-btn:hover { opacity: 0.9; }
+.login-cancel { display: block; margin-top: 12px; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; transition: var(--transition); }
+.login-cancel:hover { color: var(--yellow); }
+
+/* =============================================
+   STYLE THEMES
+   ============================================= */
+body.theme-light {
+  --bg: #f5f0ff;
+  --bg2: #ede4ff;
+  --text: #1a0030;
+  --text-muted: #6b4d8a;
+  --glass: rgba(145,18,188,0.06);
+  --border: rgba(145,18,188,0.15);
+  --card-bg: rgba(145,18,188,0.07);
+}
+body.theme-creative { --primary: #7c3aed; --soft-purple: #a78bfa; --yellow: #fcd34d; }
+body.theme-kids { --primary: #ec4899; --soft-purple: #f9a8d4; --yellow: #fde68a; --bg: #0f001a; }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-mockup { max-width: 260px; margin: 0 auto; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .portfolio-grid { grid-template-columns: 1fr 1fr; }
+  .contact-wrapper { padding: 36px 20px; }
+  .contact-items { flex-direction: column; align-items: center; }
+  section { padding: 70px 16px; }
+  .admin-panel { width: 100vw; }
+}
+@media (max-width: 480px) {
+  .services-grid { grid-template-columns: 1fr; }
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .hero-btns { flex-direction: column; align-items: center; }
+  .portfolio-tabs { gap: 6px; }
+  .tab-btn { padding: 8px 14px; font-size: 0.8rem; }
+}
+
+/* =============================================
+   PRINT STYLES
+   ============================================= */
+@media print {
+  nav, #admin-btn, #back-top, .btn-whatsapp, .hamburger, #scroll-progress { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .bg-blobs, .particles { display: none; }
+  section { page-break-inside: avoid; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<!-- Animated Background -->
+<div class="bg-blobs">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+  <div class="blob blob4"></div>
+</div>
+<div class="particles" id="particles"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <!-- تغيير اسم المصممة هنا: EDIT_DESIGNER_NAME -->
+  <div class="nav-logo" id="nav-logo-text">نور 🎨</div>
+  <div class="nav-links" id="nav-links">
+    <a href="#hero">الرئيسية</a>
+    <a href="#about">من أنا</a>
+    <a href="#services">خدماتي</a>
+    <a href="#portfolio">أعمالي</a>
+    <a href="#why">لماذا أنا</a>
+    <a href="#contact">تواصل</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#hero" onclick="toggleMenu()">الرئيسية</a>
+  <a href="#about" onclick="toggleMenu()">من أنا</a>
+  <a href="#services" onclick="toggleMenu()">خدماتي</a>
+  <a href="#portfolio" onclick="toggleMenu()">أعمالي</a>
+  <a href="#why" onclick="toggleMenu()">لماذا أنا</a>
+  <a href="#contact" onclick="toggleMenu()">تواصل</a>
+</div>
+
+<!-- =============================================
+     HERO SECTION
+     ============================================= -->
+<section id="hero">
+  <div class="hero-floating">
+    <div class="float-el">📚</div>
+    <div class="float-el">✏️</div>
+    <div class="float-el">🎨</div>
+    <div class="float-el">📖</div>
+    <div class="float-el">⭐</div>
+    <div class="float-el">🌟</div>
+  </div>
+  <div class="hero-stars" id="hero-stars"></div>
+
+  <div style="position:relative;z-index:2;">
+    <div class="hero-badge">
+      <span></span>
+      <!-- EDIT_BADGE_TEXT: تغيير نص الشارة -->
+      متاحة للمشاريع الجديدة ✨
+    </div>
+
+    <!-- EDIT_DESIGNER_NAME: اسم المصممة -->
+    <h1 class="hero-name" id="hero-name">أحلام كراح</h1>
+
+    <!-- EDIT_HERO_SUB: العنوان الرئيسي -->
+    <p class="hero-sub" id="hero-sub">مصممة جرافيك متخصصة في المكتبات والمحتوى الرقمي</p>
+
+    <div class="hero-services-tags">
+      <span class="hero-tag">📱 سوشيال ميديا</span>
+      <span class="hero-tag">📚 قصص أطفال</span>
+      <span class="hero-tag">📄 PDF وكتالوجات</span>
+      <span class="hero-tag">🎨 هوية بصرية</span>
+      <span class="hero-tag">🖨️ تصاميم للطباعة</span>
+    </div>
+
+    <p class="hero-typing" id="typing-text">
+      <span id="typed"></span><span class="cursor"></span>
+    </p>
+
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="scrollTo('#portfolio')"><span>🎨 أعمالي</span></button>
+      <button class="btn-outline" onclick="scrollTo('#contact')">💬 تواصلي معي</button>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     ABOUT SECTION
+     ============================================= -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image-wrap reveal">
+        <div class="about-mockup" id="about-img-wrap">
+          <div class="about-glow"></div>
+          <!-- صورة المصممة - يمكن تغييرها من لوحة التحكم -->
+          <span id="about-emoji" style="position:relative;z-index:1;font-size:5rem;">👩‍🎨</span>
+          <img id="about-photo" class="about-image" style="display:none;" src="" alt="صورة المصممة">
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="section-label">من أنا</div>
+        <!-- EDIT_DESIGNER_NAME -->
+        <h2 class="section-title" id="about-title">أنا <span>نور</span>،<br>مصممة لمشاريعك</h2>
+        <div class="divider"></div>
+        <!-- EDIT_ABOUT_TEXT: تغيير النص التعريفي -->
+        <p class="section-sub" id="about-text">مصممة جرافيك متحمسة متخصصة في خلق محتوى بصري جذاب وعصري. أساعد المكتبات والمحلات الصغيرة في تصاميم السوشيال ميديا، الكتب الإلكترونية، قصص الأطفال، والمطبوعات الاحترافية. أؤمن بأن التصميم الجيد يصنع الفرق.</p>
+        <div class="about-badges" id="about-badges">
+          <div class="badge"><i class="fas fa-star"></i> إبداعية</div>
+          <div class="badge"><i class="fas fa-bolt"></i> سريعة التسليم</div>
+          <div class="badge"><i class="fas fa-check-circle"></i> منظمة</div>
+          <div class="badge"><i class="fas fa-eye"></i> دقيقة التفاصيل</div>
+          <div class="badge"><i class="fas fa-heart"></i> شغوفة بعملي</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     SERVICES SECTION
+     ============================================= -->
+<section id="services">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:60px;">
+      <div class="section-label">ما أقدمه</div>
+      <h2 class="section-title">خدماتي <span>المتميزة</span></h2>
+      <div class="divider" style="margin:16px auto 0;"></div>
+    </div>
+    <div class="services-grid" id="services-grid">
+      <!-- تُولَّد ديناميكياً من JavaScript -->
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     PORTFOLIO SECTION
+     ============================================= -->
+<section id="portfolio">
+  <div class="container">
+    <div class="reveal" style="margin-bottom:40px;">
+      <div class="section-label">معرض الأعمال</div>
+      <h2 class="section-title">أعمالي <span>الإبداعية</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="portfolio-tabs reveal" id="portfolio-tabs">
+      <button class="tab-btn active" onclick="filterPortfolio('all', this)">الكل</button>
+    </div>
+    <div class="portfolio-grid" id="portfolio-grid">
+      <!-- تُولَّد ديناميكياً من JavaScript -->
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     WHY ME SECTION
+     ============================================= -->
+<section id="why">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:60px;">
+      <div class="section-label">مميزاتي</div>
+      <h2 class="section-title">لماذا <span>تختارينني؟</span></h2>
+      <div class="divider" style="margin:16px auto 0;"></div>
+    </div>
+    <div class="why-grid" id="why-grid">
+      <!-- تُولَّد ديناميكياً -->
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     CONTACT SECTION
+     ============================================= -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrapper reveal">
+      <div class="section-label">تواصلي معي</div>
+      <h2 class="section-title">هيا <span>نتعاون!</span></h2>
+      <div class="divider" style="margin:16px auto 0;"></div>
+      <p class="section-sub" style="margin:20px auto;max-width:500px;">هل لديك مشروع في ذهنك؟ تواصلي معي وسنخلق شيئاً جميلاً معاً 🌟</p>
+
+      <div class="contact-items">
+        <div class="contact-item" id="wa-link" onclick="openWA()">
+          <i class="fab fa-whatsapp" style="font-size:1.5rem;color:#25D366;"></i>
+          <div class="contact-item-info">
+            <div class="contact-item-label">واتساب</div>
+            <!-- EDIT_WHATSAPP: رقم الواتساب -->
+            <div class="contact-item-value" id="contact-wa">+212 6 XX XX XX XX</div>
+          </div>
+        </div>
+        <div class="contact-item" id="ig-link" onclick="openIG()">
+          <i class="fab fa-instagram" style="font-size:1.5rem;color:#E1306C;"></i>
+          <div class="contact-item-info">
+            <div class="contact-item-label">إنستغرام</div>
+            <!-- EDIT_INSTAGRAM: اسم المستخدم -->
+            <div class="contact-item-value" id="contact-ig">@yourusername</div>
+          </div>
+        </div>
+        <div class="contact-item" id="em-link" onclick="openEmail()">
+          <i class="fas fa-envelope" style="font-size:1.5rem;color:var(--soft-purple);"></i>
+          <div class="contact-item-info">
+            <div class="contact-item-label">البريد الإلكتروني</div>
+            <!-- EDIT_EMAIL: البريد الإلكتروني -->
+            <div class="contact-item-value" id="contact-em">yourname@email.com</div>
+          </div>
+        </div>
+      </div>
+
+      <a class="btn-whatsapp" id="wa-btn" href="#" onclick="openWA();return false;">
+        <i class="fab fa-whatsapp"></i>
+        <span>تواصلي عبر الواتساب</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>صُمِّم بـ <span>💜</span> لتميز مكتبتك | جميع الحقوق محفوظة © 2025</p>
+</footer>
+
+<!-- Back to Top -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- Admin Button -->
+<button id="admin-btn" onclick="openLogin()">
+  <i class="fas fa-lock"></i> لوحة التحكم
+</button>
+
+<!-- =============================================
+     MODALS
+     ============================================= -->
+<!-- Preview Modal -->
+<div class="modal-overlay" id="preview-modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalBtn()"><i class="fas fa-times"></i></button>
+    <div class="modal-preview" id="modal-preview-img"></div>
+    <div class="modal-cat" id="modal-cat"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div style="margin-top:20px;">
+      <a id="modal-ext-link" href="#" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:none;text-decoration:none;padding:12px 28px;border-radius:30px;font-family:var(--font-title);font-weight:700;font-size:0.95rem;background:linear-gradient(135deg,var(--primary),var(--soft-purple));color:white;">
+        <i class="fas fa-external-link-alt"></i> فتح التصميم
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div class="login-modal" id="login-modal">
+  <div class="login-box">
+    <div class="login-icon">🔐</div>
+    <div class="login-title">لوحة التحكم</div>
+    <!-- الكود الافتراضي هو 1234 - يمكن تغييره في الكود في المتغير ADMIN_CODE -->
+    <div class="login-sub">أدخلي كود الدخول للوصول إلى لوحة التحكم</div>
+    <input class="login-input" id="login-input" type="password" maxlength="4" placeholder="••••" oninput="clearLoginError()">
+    <div class="login-error" id="login-error">كود خاطئ، حاولي مجدداً</div>
+    <button class="login-btn" onclick="checkLogin()">دخول</button>
+    <span class="login-cancel" onclick="closeLogin()">إلغاء</span>
+  </div>
+</div>
+
+<!-- Admin Panel -->
+<div class="admin-overlay" id="admin-overlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <h2>⚙️ لوحة التحكم</h2>
+      <button class="admin-close" onclick="closeAdmin()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchTab('info',this)">المعلومات</button>
+      <button class="admin-tab" onclick="switchTab('design',this)">التصميم</button>
+      <button class="admin-tab" onclick="switchTab('services',this)">الخدمات</button>
+      <button class="admin-tab" onclick="switchTab('portfolio',this)">الأعمال</button>
+      <button class="admin-tab" onclick="switchTab('why',this)">المميزات</button>
+      <button class="admin-tab" onclick="switchTab('data',this)">البيانات</button>
+    </div>
+
+    <!-- INFO TAB -->
+    <div class="admin-content active" id="tab-info">
+      <div class="admin-section-title">المعلومات الشخصية</div>
+      <div class="admin-field">
+        <label class="admin-label">الاسم / الشعار</label>
+        <input class="admin-input" id="a-name" placeholder="نور العمراني">
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">العنوان الرئيسي (hero)</label>
+        <input class="admin-input" id="a-hero-title" placeholder="نور العمراني">
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">التخصص</label>
+        <input class="admin-input" id="a-hero-sub" placeholder="مصممة جرافيك">
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">نص "من أنا"</label>
+        <textarea class="admin-textarea" id="a-about-text" rows="4"></textarea>
+      </div>
+      <div class="admin-section-title">بيانات التواصل</div>
+      <div class="admin-field">
+        <label class="admin-label">واتساب (بصيغة دولية مثل: 212600000000)</label>
+        <input class="admin-input" id="a-wa" placeholder="212600000000">
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">عرض رقم الواتساب</label>
+        <input class="admin-input" id="a-wa-display" placeholder="+212 6 XX XX XX XX">
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">إنستغرام</label>
+        <input class="admin-input" id="a-ig" placeholder="@yourusername">
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">البريد الإلكتروني</label>
+        <input class="admin-input" id="a-email" placeholder="yourname@email.com">
+      </div>
+      <div class="admin-section-title">صورة المصممة</div>
+      <div class="admin-field">
+        <label class="admin-label">رفع الصورة</label>
+        <input type="file" class="admin-input" id="a-photo" accept="image/*" onchange="uploadAboutPhoto(this)">
+        <img id="a-photo-preview" class="admin-preview-img" style="display:none;" src="" alt="">
+        <button class="admin-btn-danger" onclick="removeAboutPhoto()" style="margin-top:8px;" id="remove-photo-btn">حذف الصورة</button>
+      </div>
+      <button class="admin-btn-save" onclick="saveInfo()">💾 حفظ المعلومات</button>
+      <div class="admin-success" id="info-success">✅ تم الحفظ بنجاح!</div>
+    </div>
+
+    <!-- DESIGN TAB -->
+    <div class="admin-content" id="tab-design">
+      <div class="admin-section-title">الثيم</div>
+      <div class="theme-options">
+        <div class="theme-option selected" onclick="applyTheme('dark',this)" style="background:#0a0010;border-color:var(--soft-purple);color:#AE75DA;">🌑 Luxury Dark</div>
+        <div class="theme-option" onclick="applyTheme('light',this)" style="background:#f5f0ff;color:#6b4d8a;">☀️ Soft Light</div>
+        <div class="theme-option" onclick="applyTheme('creative',this)" style="background:#1e1040;color:#a78bfa;">💜 Creative</div>
+        <div class="theme-option" onclick="applyTheme('kids',this)" style="background:#1f0030;color:#f9a8d4;">🌈 Kids</div>
+      </div>
+      <div class="admin-section-title">الألوان</div>
+      <div class="admin-field">
+        <label class="admin-label">اللون الرئيسي (البنفسجي)</label>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <input type="color" id="a-color-primary" value="#9112BC" oninput="applyColor('--primary',this.value)" style="width:48px;height:36px;border:none;background:none;cursor:pointer;border-radius:8px;">
+          <input class="admin-input" id="a-color-primary-hex" placeholder="#9112BC" style="flex:1;" oninput="applyColorHex('--primary',this.value,'a-color-primary')">
+        </div>
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">لون الأكسنت (الأصفر)</label>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <input type="color" id="a-color-yellow" value="#FAEB92" oninput="applyColor('--yellow',this.value)" style="width:48px;height:36px;border:none;background:none;cursor:pointer;border-radius:8px;">
+          <input class="admin-input" id="a-color-yellow-hex" placeholder="#FAEB92" style="flex:1;" oninput="applyColorHex('--yellow',this.value,'a-color-yellow')">
+        </div>
+      </div>
+      <div class="admin-section-title">الخط والحجم</div>
+      <div class="admin-field">
+        <label class="admin-label">الخط</label>
+        <select class="admin-select" id="a-font" onchange="applyFont(this.value)">
+          <option value="Cairo">Cairo</option>
+          <option value="Tajawal">Tajawal</option>
+          <option value="Amiri">Amiri</option>
+          <option value="Noto Kufi Arabic">Noto Kufi Arabic</option>
+        </select>
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">حجم الخط الأساسي</label>
+        <div class="range-row">
+          <input type="range" id="a-fontsize" min="12" max="22" value="16" oninput="applyFontSize(this.value)">
+          <span id="fs-val">16px</span>
+        </div>
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">انحناء الزوايا (border-radius)</label>
+        <div class="range-row">
+          <input type="range" id="a-radius" min="8" max="40" value="24" oninput="applyRadius(this.value)">
+          <span id="r-val">24px</span>
+        </div>
+      </div>
+      <div class="admin-field">
+        <label class="admin-label">الحركات (Animations)</label>
+        <select class="admin-select" id="a-anim" onchange="toggleAnimations(this.value)">
+          <option value="on">تشغيل</option>
+          <option value="off">إيقاف</option>
+        </select>
+      </div>
+      <button class="admin-btn-save" onclick="saveDesign()">💾 حفظ التصميم</button>
+      <div class="admin-success" id="design-success">✅ تم الحفظ بنجاح!</div>
+    </div>
+
+    <!-- SERVICES TAB -->
+    <div class="admin-content" id="tab-services">
+      <div class="admin-section-title">الخدمات الحالية</div>
+      <div id="admin-services-list"></div>
+      <div class="admin-section-title">إضافة خدمة جديدة</div>
+      <div class="add-form">
+        <div class="add-form-title">➕ خدمة جديدة</div>
+        <div class="admin-field">
+          <label class="admin-label">الأيقونة (emoji)</label>
+          <input class="admin-input" id="ns-icon" placeholder="🎨">
+        </div>
+        <div class="admin-field">
+          <label class="admin-label">اسم الخدمة</label>
+          <input class="admin-input" id="ns-title" placeholder="اسم الخدمة">
+        </div>
+        <div class="admin-field">
+          <label class="admin-label">الوصف</label>
+          <textarea class="admin-textarea" id="ns-desc" rows="2" placeholder="وصف الخدمة"></textarea>
+        </div>
+        <button class="admin-btn-save" onclick="addService()">➕ إضافة</button>
+      </div>
+      <div class="admin-success" id="srv-success">✅ تم الحفظ!</div>
+    </div>
+
+    <!-- PORTFOLIO TAB -->
+    <div class="admin-content" id="tab-portfolio">
+      <div class="admin-section-title">الأعمال الحالية</div>
+      <div id="admin-portfolio-list"></div>
+      <div class="admin-section-title">إضافة عمل جديد</div>
+      <div class="add-form">
+        <div class="add-form-title">➕ عمل جديد</div>
+        <div class="admin-field">
+          <label class="admin-label">العنوان</label>
+          <input class="admin-input" id="np-title" placeholder="عنوان التصميم">
+        </div>
+        <div class="admin-field">
+          <label class="admin-label">القسم/الفئة</label>
+          <input class="admin-input" id="np-cat" placeholder="مثل: سوشيال ميديا">
+        </div>
+        <div class="admin-field">
+          <label class="admin-label">الوصف</label>
+          <textarea class="admin-textarea" id="np-desc" rows="2" placeholder="وصف التصميم"></textarea>
+        </div>
+        <div class="admin-field">
+          <label class="admin-label">رابط التصميم (Canva/Behance/Drive...)</label>
+          <input class="admin-input" id="np-link" placeholder="https://...">
+        </div>
+        <div class="admin-field">
+          <label class="admin-label">صورة التصميم (اختياري)</label>
+          <input type="file" class="admin-input" id="np-img" accept="image/*">
+          <img id="np-img-preview" class="admin-preview-img" style="display:none;" src="" alt="">
+        </div>
+        <div class="admin-field">
+          <label class="admin-label">لون الخلفية (mockup)</label>
+          <input class="admin-input" id="np-bg" placeholder="linear-gradient(135deg,#1a0028,#2d0050)">
+        </div>
+        <div class="admin-field">
+          <label class="admin-label">Emoji التصميم</label>
+          <input class="admin-input" id="np-emoji" placeholder="🎨">
+        </div>
+        <button class="admin-btn-save" onclick="addPortfolioItem()">➕ إضافة</button>
+      </div>
+      <div class="admin-success" id="port-success">✅ تم الحفظ!</div>
+    </div>
+
+    <!-- WHY TAB -->
+    <div class="admin-content" id="tab-why">
+      <div class="admin-section-title">نقاط المميزات</div>
+      <div id="admin-why-list"></div>
+      <div class="admin-section-title">إضافة ميزة جديدة</div>
+      <div class="add-form">
+        <div class="add-form-title">➕ ميزة جديدة</div>
+        <div class="admin-field">
+          <label class="admin-label">الأيقونة</label>
+          <input class="admin-input" id="nw-icon" placeholder="✅">
+        </div>
+        <div class="admin-field">
+          <label class="admin-label">العنوان</label>
+          <input class="admin-input" id="nw-title" placeholder="ميزة مميزة">
+        </div>
+        <div class="admin-field">
+          <label class="admin-label">الوصف</label>
+          <input class="admin-input" id="nw-desc" placeholder="وصف قصير">
+        </div>
+        <button class="admin-btn-save" onclick="addWhyItem()">➕ إضافة</button>
+      </div>
+      <div class="admin-success" id="why-success">✅ تم الحفظ!</div>
+    </div>
+
+    <!-- DATA TAB -->
+    <div class="admin-content" id="tab-data">
+      <div class="admin-section-title">إدارة البيانات</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;line-height:1.7;">تصدير واستيراد بيانات الموقع بصيغة JSON للنسخ الاحتياطي</p>
+      <button class="admin-btn-save" onclick="exportData()">📤 تصدير JSON</button>
+      <div class="admin-field" style="margin-top:16px;">
+        <label class="admin-label">استيراد JSON</label>
+        <input type="file" class="admin-input" id="import-file" accept=".json" onchange="importData(this)">
+      </div>
+      <div class="admin-section-title" style="margin-top:24px;">إعادة الضبط</div>
+      <p style="font-size:0.83rem;color:var(--text-muted);margin-bottom:12px;">سيحذف هذا الزر جميع التغييرات ويعود للإعدادات الافتراضية</p>
+      <button class="admin-btn-danger" onclick="resetData()">🔄 إعادة ضبط كاملة</button>
+      <div class="admin-section-title" style="margin-top:24px;">طباعة / حفظ PDF</div>
+      <button class="admin-btn-outline" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
+    </div>
+
+  </div>
+  <!-- Click outside closes -->
+  <div style="flex:1;" onclick="closeAdmin()"></div>
+</div>
+
+<!-- =============================================
+     JAVASCRIPT
+     ============================================= -->
+<script>
+
+// =============================================
+// ADMIN CODE - غيري الكود هنا: EDIT_ADMIN_CODE
+// =============================================
+const ADMIN_CODE = '2007';
+
+// =============================================
+// DEFAULT DATA
+// =============================================
+const DEFAULT_DATA = {
+  name: 'نور العمراني',
+  heroTitle: 'نور العمراني',
+  heroSub: 'مصممة جرافيك متخصصة في المكتبات والمحتوى الرقمي',
+  aboutText: 'مصممة جرافيك متحمسة متخصصة في خلق محتوى بصري جذاب وعصري. أساعد المكتبات والمحلات الصغيرة في تصاميم السوشيال ميديا، الكتب الإلكترونية، قصص الأطفال، والمطبوعات الاحترافية.',
+  wa: '212600000000',
+  waDisplay: '+212 6 XX XX XX XX',
+  ig: '@yourusername',
+  email: 'yourname@email.com',
+  aboutPhoto: null,
+  theme: 'dark',
+  primaryColor: '#9112BC',
+  yellowColor: '#FAEB92',
+  font: 'Cairo',
+  fontSize: 16,
+  radius: 24,
+  animations: 'on',
+  services: [
+    {id:1, icon:'📱', title:'تصاميم السوشيال ميديا', desc:'منشورات جذابة لإنستغرام وفيسبوك تعكس هوية مكتبتك'},
+    {id:2, icon:'📚', title:'تصاميم الدخول المدرسي', desc:'إعلانات الموسم المدرسي لجذب طلاب المدارس والآباء'},
+    {id:3, icon:'🎉', title:'تصاميم رمضان والعيد', desc:'تصاميم موسمية احتفالية بروح العيد والبهجة'},
+    {id:4, icon:'📖', title:'منشورات الكتب الجديدة', desc:'عرض الإصدارات الجديدة بشكل أنيق ومحترف'},
+    {id:5, icon:'💌', title:'بطاقات تعريف', desc:'بطاقات عمل احترافية تعكس هويتك البصرية'},
+    {id:6, icon:'✨', title:'Stickers وفواصل الكتب', desc:'ملصقات وفواصل كتب مميزة وجذابة للطباعة'},
+    {id:7, icon:'🏷️', title:'Banners وLogo', desc:'لافتات إعلانية وشعار بسيط لمكتبتك'},
+    {id:8, icon:'📝', title:'أوراق تعليمية للأطفال', desc:'أوراق حروف، أرقام، تمارين وصفحات تلوين'},
+    {id:9, icon:'📕', title:'أغلفة وتنسيق Ebook', desc:'تصميم أغلفة كتب إلكترونية وتنسيق صفحات PDF احترافية'},
+    {id:10, icon:'👧', title:'قصص أطفال مصورة', desc:'قصص ملونة بشخصيات كرتونية بسيطة وجذابة'},
+    {id:11, icon:'📋', title:'كتالوجات وقوائم الأسعار', desc:'كتالوجات الكتب وقوائم الخدمات بشكل احترافي'},
+    {id:12, icon:'🌞', title:'تصاميم المناسبات والعروض', desc:'تصاميم العروض الصيفية وفترة الامتحانات'},
+  ],
+  portfolio: [
+    {id:1, title:'منشور دخول مدرسي', cat:'سوشيال ميديا', desc:'تصميم منشور إنستغرام لعروض الدخول المدرسي', link:'', img:'', bg:'linear-gradient(135deg,#1a0028,#3d0060)', emoji:'📚'},
+    {id:2, title:'عرض خاص على الكتب', cat:'سوشيال ميديا', desc:'إعلان عرض مميز على الكتب المدرسية والقصص', link:'', img:'', bg:'linear-gradient(135deg,#001a00,#003d1a)', emoji:'📖'},
+    {id:3, title:'منشور رمضاني', cat:'سوشيال ميديا', desc:'تصميم احتفالي بمناسبة شهر رمضان المبارك', link:'', img:'', bg:'linear-gradient(135deg,#1a1500,#3d3000)', emoji:'🌙'},
+    {id:4, title:'غلاف كتاب إلكتروني', cat:'Ebook', desc:'تصميم غلاف جذاب لكتاب تعليمي للأطفال', link:'', img:'', bg:'linear-gradient(135deg,#0d001a,#1a0035)', emoji:'📘'},
+    {id:5, title:'تنسيق صفحات PDF', cat:'Ebook', desc:'تنسيق احترافي لصفحات داخلية لكتاب تعليمي', link:'', img:'', bg:'linear-gradient(135deg,#001a1a,#003d3d)', emoji:'📄'},
+    {id:6, title:'الأسد الصغير الشجاع', cat:'قصص أطفال', desc:'قصة مصورة ملونة عن الشجاعة والإقدام للأطفال', link:'', img:'', bg:'linear-gradient(135deg,#1a0a00,#3d2000)', emoji:'🦁'},
+    {id:7, title:'لينا وكتاب السحر', cat:'قصص أطفال', desc:'قصة خيالية جميلة عن عالم الكتب والخيال', link:'', img:'', bg:'linear-gradient(135deg,#001a0d,#003d1f)', emoji:'✨'},
+    {id:8, title:'أبجديتي الأولى', cat:'قصص أطفال', desc:'كتاب تعليمي مصور لتعلم الحروف والأرقام', link:'', img:'', bg:'linear-gradient(135deg,#0d0a1a,#1f1a3d)', emoji:'🔤'},
+    {id:9, title:'ورقة حروف وأرقام', cat:'تعليمي', desc:'ورقة عمل للأطفال لتعلم الكتابة والحساب', link:'', img:'', bg:'linear-gradient(135deg,#001a1a,#002a3d)', emoji:'✏️'},
+    {id:10, title:'صفحة تلوين', cat:'تعليمي', desc:'صفحة تلوين تفاعلية للأطفال', link:'', img:'', bg:'linear-gradient(135deg,#1a0a0a,#3d1a1a)', emoji:'🎨'},
+    {id:11, title:'تصميم فلاير', cat:'طباعة', desc:'فلاير دعائي لمكتبة بتصميم عصري وجذاب', link:'', img:'', bg:'linear-gradient(135deg,#0a001a,#20003d)', emoji:'📣'},
+    {id:12, title:'بطاقة تعريف', cat:'طباعة', desc:'بطاقة عمل أنيقة بهوية بصرية مميزة', link:'', img:'', bg:'linear-gradient(135deg,#001a0a,#003d20)', emoji:'💳'},
+    {id:13, title:'كتالوج الكتب', cat:'كتالوج', desc:'كتالوج احترافي لعرض الكتب والأسعار', link:'', img:'', bg:'linear-gradient(135deg,#1a1a00,#3d3d00)', emoji:'📋'},
+  ],
+  why: [
+    {id:1, icon:'🎨', title:'تصاميم عصرية وإبداعية', desc:'أواكب أحدث ترندات التصميم لتبرزي دائماً'},
+    {id:2, icon:'⚡', title:'تسليم سريع', desc:'احترام المواعيد وتسليم التصاميم في الوقت المحدد'},
+    {id:3, icon:'💬', title:'تواصل فعّال', desc:'أرد دائماً وأتابع معك كل خطوة حتى الرضا التام'},
+    {id:4, icon:'💎', title:'أسعار مناسبة', desc:'جودة عالية بأسعار تناسب المشاريع الصغيرة والمتوسطة'},
+    {id:5, icon:'🔍', title:'اهتمام بالتفاصيل', desc:'كل بكسل مهم - أعطي اهتماماً كاملاً لكل جزئية'},
+    {id:6, icon:'🖨️', title:'جاهزة للطباعة والنشر', desc:'ملفاتي جاهزة للطباعة وللنشر الرقمي بكل الصيغ'},
+  ]
+};
+
+// =============================================
+// STATE
+// =============================================
+let appData = {};
+
+function loadData() {
+  const saved = localStorage.getItem('portfolio_data_ar');
+  if (saved) {
+    try {
+      appData = {...DEFAULT_DATA, ...JSON.parse(saved)};
+    } catch(e) { appData = {...DEFAULT_DATA}; }
+  } else {
+    appData = {...DEFAULT_DATA};
+  }
+}
+
+function saveData() {
+  localStorage.setItem('portfolio_data_ar', JSON.stringify(appData));
+}
+
+// =============================================
+// RENDER SITE
+// =============================================
+function renderSite() {
+  // Name & texts
+  setEl('nav-logo-text', appData.name + ' 🎨');
+  setEl('hero-name', appData.heroTitle);
+  setEl('hero-sub', appData.heroSub);
+  setEl('about-text', appData.aboutText);
+  setEl('contact-wa', appData.waDisplay || appData.wa);
+  setEl('contact-ig', appData.ig);
+  setEl('contact-em', appData.email);
+  // About photo
+  const photo = document.getElementById('about-photo');
+  const emoji = document.getElementById('about-emoji');
+  if (appData.aboutPhoto) {
+    photo.src = appData.aboutPhoto;
+    photo.style.display = 'block';
+    emoji.style.display = 'none';
+  } else {
+    photo.style.display = 'none';
+    emoji.style.display = 'block';
+  }
+  renderServices();
+  renderPortfolio('all');
+  renderWhy();
+  renderPortfolioTabs();
+}
+
+function setEl(id, txt) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = txt;
+}
+
+function renderServices() {
+  const grid = document.getElementById('services-grid');
+  if (!grid) return;
+  grid.innerHTML = appData.services.map(s => `
+    <div class="service-card reveal">
+      <div class="service-icon">${s.icon}</div>
+      <div class="service-title">${s.title}</div>
+      <div class="service-desc">${s.desc}</div>
+    </div>
+  `).join('');
+  initReveal();
+}
+
+function renderPortfolioTabs() {
+  const tabs = document.getElementById('portfolio-tabs');
+  const cats = ['all', ...new Set(appData.portfolio.map(p => p.cat))];
+  tabs.innerHTML = cats.map((c,i) => `
+    <button class="tab-btn ${i===0?'active':''}" onclick="filterPortfolio('${c}',this)">${c==='all'?'الكل':c}</button>
+  `).join('');
+}
+
+let currentFilter = 'all';
+function filterPortfolio(cat, el) {
+  currentFilter = cat;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderPortfolio(cat);
+}
+
+function renderPortfolio(cat) {
+  const grid = document.getElementById('portfolio-grid');
+  if (!grid) return;
+  const items = cat === 'all' ? appData.portfolio : appData.portfolio.filter(p => p.cat === cat);
+  grid.innerHTML = items.map((p,i) => {
+    const hasLink = p.link && p.link.trim();
+    const hasImg = p.img && p.img.trim();
+    return `
+    <div class="portfolio-card reveal" style="animation-delay:${i*0.08}s;" onclick="handlePortfolioClick(${p.id})">
+      ${hasLink ? `<div class="link-icon"><i class="fas fa-external-link-alt"></i></div>` : ''}
+      <div class="portfolio-preview">
+        ${hasImg
+          ? `<img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;">`
+          : `<div style="width:100%;height:100%;background:${p.bg||'linear-gradient(135deg,#1a0028,#2d0050)'};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;">
+              <div style="font-size:3.5rem;">${p.emoji||'🎨'}</div>
+              <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:8px 16px;text-align:center;">
+                <div style="height:6px;width:80%;background:rgba(255,255,255,0.2);border-radius:4px;margin:4px auto;"></div>
+                <div style="height:6px;width:60%;background:rgba(250,235,146,0.4);border-radius:4px;margin:4px auto;"></div>
+                <div style="height:6px;width:70%;background:rgba(174,117,218,0.4);border-radius:4px;margin:4px auto;"></div>
+              </div>
+            </div>`
+        }
+        <div class="portfolio-overlay">
+          <button class="view-btn"><i class="fas fa-${hasLink?'external-link-alt':'eye'}"></i> ${hasLink?'فتح التصميم':'معاينة'}</button>
+        </div>
+      </div>
+      <div class="portfolio-info">
+        <div class="portfolio-cat">${p.cat}</div>
+        <div class="portfolio-title-card">${p.title}</div>
+        <div class="portfolio-desc-card">${p.desc}</div>
+      </div>
+    </div>`;
+  }).join('');
+  initReveal();
+}
+
+function renderWhy() {
+  const grid = document.getElementById('why-grid');
+  if (!grid) return;
+  grid.innerHTML = appData.why.map(w => `
+    <div class="why-card reveal">
+      <div class="why-icon">${w.icon}</div>
+      <div class="why-text">
+        <h4>${w.title}</h4>
+        <p>${w.desc}</p>
+      </div>
+    </div>
+  `).join('');
+  initReveal();
+}
+
+// =============================================
+// PORTFOLIO CLICK
+// =============================================
+function handlePortfolioClick(id) {
+  const item = appData.portfolio.find(p => p.id === id);
+  if (!item) return;
+  const link = item.link && item.link.trim();
+  if (link) {
+    const url = validateUrl(link);
+    window.open(url, '_blank', 'noopener,noreferrer');
+  } else {
+    openPreviewModal(item);
+  }
+}
+
+function validateUrl(url) {
+  if (!url) return '#';
+  if (!url.startsWith('http://') && !url.startsWith('https://')) return 'https://' + url;
+  return url;
+}
+
+function openPreviewModal(item) {
+  const modal = document.getElementById('preview-modal');
+  document.getElementById('modal-cat').textContent = item.cat;
+  document.getElementById('modal-title').textContent = item.title;
+  document.getElementById('modal-desc').textContent = item.desc;
+  const previewEl = document.getElementById('modal-preview-img');
+  if (item.img) {
+    previewEl.innerHTML = `<img src="${item.img}" alt="${item.title}" style="width:100%;max-height:300px;object-fit:cover;">`;
+  } else {
+    previewEl.innerHTML = `<div style="width:100%;height:200px;background:${item.bg||'linear-gradient(135deg,#1a0028,#2d0050)'};display:flex;align-items:center;justify-content:center;font-size:4rem;border-radius:12px;">${item.emoji||'🎨'}</div>`;
+  }
+  const extLink = document.getElementById('modal-ext-link');
+  if (item.link) {
+    extLink.href = validateUrl(item.link);
+    extLink.style.display = 'inline-flex';
+  } else {
+    extLink.style.display = 'none';
+  }
+  modal.classList.add('open');
+}
+
+function closeModal(e) { if(e.target===document.getElementById('preview-modal')) closeModalBtn(); }
+function closeModalBtn() { document.getElementById('preview-modal').classList.remove('open'); }
+
+// =============================================
+// TYPING EFFECT
+// =============================================
+const typingTexts = [
+  'أصمم لمكتبتك محتوى بصري يجذب العملاء ويعكس هويتك 📚',
+  'تصاميم قصص أطفال ملونة وإبداعية 🦁',
+  'كتب إلكترونية واحترافية بتصميم أنيق 📘',
+  'أوراق تعليمية وتلوين جاهزة للطباعة ✏️',
+  'تصاميم مناسبات ورمضان وعروض متميزة 🌙',
+];
+let tIdx=0, cIdx=0, deleting=false, typingEl;
+function typeEffect() {
+  typingEl = document.getElementById('typed');
+  if (!typingEl) return;
+  const curr = typingTexts[tIdx];
+  if (!deleting && cIdx <= curr.length) {
+    typingEl.textContent = curr.slice(0, cIdx++);
+    setTimeout(typeEffect, 60);
+  } else if (deleting && cIdx >= 0) {
+    typingEl.textContent = curr.slice(0, cIdx--);
+    setTimeout(typeEffect, 35);
+  } else if (!deleting) {
+    deleting = true;
+    setTimeout(typeEffect, 1800);
+  } else {
+    deleting = false;
+    tIdx = (tIdx+1) % typingTexts.length;
+    cIdx = 0;
+    setTimeout(typeEffect, 400);
+  }
+}
+
+// =============================================
+// STARS & PARTICLES
+// =============================================
+function createStars() {
+  const c = document.getElementById('hero-stars');
+  if (!c) return;
+  for (let i=0; i<40; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `top:${Math.random()*100}%;right:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s;`;
+    c.appendChild(s);
+  }
+}
+
+function createParticles() {
+  const c = document.getElementById('particles');
+  if (!c) return;
+  for (let i=0; i<20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `right:${Math.random()*100}%;animation-delay:${Math.random()*8}s;animation-duration:${6+Math.random()*6}s;background:${Math.random()>0.5?'var(--soft-purple)':'var(--yellow)'};`;
+    c.appendChild(p);
+  }
+}
+
+// =============================================
+// SCROLL REVEAL
+// =============================================
+function initReveal() {
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, {threshold:0.1});
+  els.forEach(el => { el.classList.remove('visible'); obs.observe(el); });
+}
+
+// =============================================
+// SCROLL EFFECTS
+// =============================================
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('scroll-progress').style.width = (scrolled/max*100)+'%';
+  const backTop = document.getElementById('back-top');
+  scrolled > 400 ? backTop.classList.add('visible') : backTop.classList.remove('visible');
+  const nav = document.getElementById('navbar');
+  scrolled > 80 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+});
+
+// =============================================
+// NAV MOBILE
+// =============================================
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+function scrollTo(id) { document.querySelector(id).scrollIntoView({behavior:'smooth'}); }
+
+// =============================================
+// CONTACT
+// =============================================
+function openWA() {
+  const num = appData.wa.replace(/\D/g,'');
+  if(num) window.open(`https://wa.me/${num}`, '_blank', 'noopener,noreferrer');
+}
+function openIG() {
+  const ig = appData.ig.replace('@','');
+  window.open(`https://instagram.com/${ig}`, '_blank', 'noopener,noreferrer');
+}
+function openEmail() {
+  window.location.href = `mailto:${appData.email}`;
+}
+
+// =============================================
+// ADMIN: LOGIN
+// =============================================
+function openLogin() { document.getElementById('login-modal').classList.add('open'); document.getElementById('login-input').focus(); }
+function closeLogin() { document.getElementById('login-modal').classList.remove('open'); document.getElementById('login-input').value=''; }
+function clearLoginError() { document.getElementById('login-error').classList.remove('show'); }
+function checkLogin() {
+  const val = document.getElementById('login-input').value;
+  if (val === ADMIN_CODE) {
+    closeLogin();
+    openAdmin();
+  } else {
+    document.getElementById('login-error').classList.add('show');
+    document.getElementById('login-input').value='';
+  }
+}
+document.getElementById('login-input').addEventListener('keydown', e => { if(e.key==='Enter') checkLogin(); });
+
+// =============================================
+// ADMIN: PANEL
+// =============================================
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  populateAdminFields();
+}
+function closeAdmin() { document.getElementById('admin-overlay').classList.remove('open'); }
+
+function switchTab(name, el) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+function populateAdminFields() {
+  setVal('a-name', appData.name);
+  setVal('a-hero-title', appData.heroTitle);
+  setVal('a-hero-sub', appData.heroSub);
+  setVal('a-about-text', appData.aboutText);
+  setVal('a-wa', appData.wa);
+  setVal('a-wa-display', appData.waDisplay||appData.wa);
+  setVal('a-ig', appData.ig);
+  setVal('a-email', appData.email);
+  // Photo
+  if (appData.aboutPhoto) {
+    const p = document.getElementById('a-photo-preview');
+    p.src = appData.aboutPhoto;
+    p.style.display = 'block';
+  }
+  // Design
+  setVal('a-color-primary', appData.primaryColor||'#9112BC');
+  setVal('a-color-primary-hex', appData.primaryColor||'#9112BC');
+  setVal('a-color-yellow', appData.yellowColor||'#FAEB92');
+  setVal('a-color-yellow-hex', appData.yellowColor||'#FAEB92');
+  setVal('a-font', appData.font||'Cairo');
+  document.getElementById('a-fontsize').value = appData.fontSize||16;
+  document.getElementById('fs-val').textContent = (appData.fontSize||16)+'px';
+  document.getElementById('a-radius').value = appData.radius||24;
+  document.getElementById('r-val').textContent = (appData.radius||24)+'px';
+  setVal('a-anim', appData.animations||'on');
+  // Image for np
+  document.getElementById('np-img').addEventListener('change', function(){
+    uploadImgPreview(this, 'np-img-preview');
+  });
+  renderAdminServices();
+  renderAdminPortfolio();
+  renderAdminWhy();
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (el.tagName==='SELECT') el.value = val;
+  else el.value = val||'';
+}
+
+// INFO SAVE
+function saveInfo() {
+  appData.name = getVal('a-name') || appData.name;
+  appData.heroTitle = getVal('a-hero-title') || appData.heroTitle;
+  appData.heroSub = getVal('a-hero-sub') || appData.heroSub;
+  appData.aboutText = getVal('a-about-text') || appData.aboutText;
+  appData.wa = getVal('a-wa') || appData.wa;
+  appData.waDisplay = getVal('a-wa-display') || appData.wa;
+  appData.ig = getVal('a-ig') || appData.ig;
+  appData.email = getVal('a-email') || appData.email;
+  saveData();
+  renderSite();
+  showSuccess('info-success');
+}
+
+function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+function uploadAboutPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    appData.aboutPhoto = e.target.result;
+    document.getElementById('a-photo-preview').src = e.target.result;
+    document.getElementById('a-photo-preview').style.display = 'block';
+    saveData(); renderSite();
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+function removeAboutPhoto() {
+  appData.aboutPhoto = null;
+  document.getElementById('a-photo-preview').style.display = 'none';
+  document.getElementById('a-photo').value = '';
+  saveData(); renderSite();
+}
+
+// DESIGN
+function applyColor(varName, value) {
+  document.documentElement.style.setProperty(varName, value);
+}
+function applyColorHex(varName, value, colorId) {
+  if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+    document.documentElement.style.setProperty(varName, value);
+    document.getElementById(colorId).value = value;
+  }
+}
+function applyFont(font) {
+  document.documentElement.style.setProperty('--font-title', `'${font}', sans-serif`);
+  document.documentElement.style.setProperty('--font-body', `'${font}', sans-serif`);
+}
+function applyFontSize(val) {
+  document.documentElement.style.setProperty('--font-size-base', val+'px');
+  document.getElementById('fs-val').textContent = val+'px';
+}
+function applyRadius(val) {
+  document.documentElement.style.setProperty('--radius', val+'px');
+  document.getElementById('r-val').textContent = val+'px';
+}
+function toggleAnimations(val) {
+  if (val === 'off') {
+    const style = document.getElementById('anim-disable') || (() => { const s=document.createElement('style'); s.id='anim-disable'; document.head.appendChild(s); return s; })();
+    style.textContent = '*, *::before, *::after { animation: none !important; transition: none !important; }';
+  } else {
+    const s = document.getElementById('anim-disable');
+    if (s) s.textContent = '';
+  }
+}
+function applyTheme(theme, el) {
+  document.querySelectorAll('.theme-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.body.className = document.body.className.replace(/theme-\w+/g,'').trim();
+  if (theme !== 'dark') document.body.classList.add('theme-'+theme);
+  appData.theme = theme;
+}
+
+function saveDesign() {
+  appData.primaryColor = getVal('a-color-primary-hex') || appData.primaryColor;
+  appData.yellowColor = getVal('a-color-yellow-hex') || appData.yellowColor;
+  appData.font = getVal('a-font') || 'Cairo';
+  appData.fontSize = parseInt(document.getElementById('a-fontsize').value) || 16;
+  appData.radius = parseInt(document.getElementById('a-radius').value) || 24;
+  appData.animations = getVal('a-anim') || 'on';
+  saveData();
+  showSuccess('design-success');
+}
+
+// SERVICES ADMIN
+function renderAdminServices() {
+  const list = document.getElementById('admin-services-list');
+  list.innerHTML = appData.services.map(s => `
+    <div class="admin-item-card" id="srv-${s.id}">
+      <div class="item-title">${s.icon} ${s.title}</div>
+      <div class="item-sub">${s.desc}</div>
+      <div class="admin-item-actions">
+        <button class="btn-edit" onclick="editService(${s.id})">✏️ تعديل</button>
+        <button class="btn-delete" onclick="deleteService(${s.id})">🗑️ حذف</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addService() {
+  const icon = getVal('ns-icon')||'🎨';
+  const title = getVal('ns-title');
+  const desc = getVal('ns-desc');
+  if (!title) return;
+  const id = Date.now();
+  appData.services.push({id, icon, title, desc});
+  saveData(); renderServices(); renderAdminServices();
+  document.getElementById('ns-icon').value='';
+  document.getElementById('ns-title').value='';
+  document.getElementById('ns-desc').value='';
+  showSuccess('srv-success');
+}
+
+function editService(id) {
+  const s = appData.services.find(x=>x.id===id);
+  if (!s) return;
+  const icon = prompt('الأيقونة:', s.icon);
+  if (icon !== null) s.icon = icon;
+  const title = prompt('الاسم:', s.title);
+  if (title !== null) s.title = title;
+  const desc = prompt('الوصف:', s.desc);
+  if (desc !== null) s.desc = desc;
+  saveData(); renderServices(); renderAdminServices();
+  showSuccess('srv-success');
+}
+
+function deleteService(id) {
+  if (!confirm('حذف هذه الخدمة؟')) return;
+  appData.services = appData.services.filter(s=>s.id!==id);
+  saveData(); renderServices(); renderAdminServices();
+}
+
+// PORTFOLIO ADMIN
+function renderAdminPortfolio() {
+  const list = document.getElementById('admin-portfolio-list');
+  list.innerHTML = appData.portfolio.map(p => `
+    <div class="admin-item-card" id="port-${p.id}">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px;">
+        ${p.img ? `<img src="${p.img}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;">` : `<div style="width:40px;height:40px;border-radius:8px;background:${p.bg||'#1a0028'};display:flex;align-items:center;justify-content:center;">${p.emoji||'🎨'}</div>`}
+        <div>
+          <div class="item-title">${p.title}</div>
+          <div class="item-sub">${p.cat} ${p.link?'• 🔗 رابط':'• 🔍 بدون رابط'}</div>
+        </div>
+      </div>
+      <div class="admin-item-actions">
+        <button class="btn-edit" onclick="editPortfolioItem(${p.id})">✏️ تعديل</button>
+        <button class="btn-delete" onclick="deletePortfolioItem(${p.id})">🗑️ حذف</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function uploadImgPreview(input, previewId) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const p = document.getElementById(previewId);
+    if (p) { p.src = e.target.result; p.style.display='block'; }
+    input.dataset.b64 = e.target.result;
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+function addPortfolioItem() {
+  const title = getVal('np-title');
+  const cat = getVal('np-cat');
+  const desc = getVal('np-desc');
+  const link = getVal('np-link');
+  const bg = getVal('np-bg') || 'linear-gradient(135deg,#1a0028,#2d0050)';
+  const emoji = getVal('np-emoji') || '🎨';
+  const imgInput = document.getElementById('np-img');
+  const img = imgInput && imgInput.dataset.b64 ? imgInput.dataset.b64 : '';
+  if (!title) return;
+  const id = Date.now();
+  appData.portfolio.push({id, title, cat, desc, link: link ? validateUrl(link) : '', img, bg, emoji});
+  saveData();
+  renderPortfolio(currentFilter);
+  renderPortfolioTabs();
+  renderAdminPortfolio();
+  ['np-title','np-cat','np-desc','np-link','np-bg','np-emoji'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  if (imgInput) { imgInput.value=''; delete imgInput.dataset.b64; }
+  document.getElementById('np-img-preview').style.display='none';
+  showSuccess('port-success');
+}
+
+function editPortfolioItem(id) {
+  const p = appData.portfolio.find(x=>x.id===id);
+  if (!p) return;
+  const title = prompt('العنوان:', p.title);
+  if (title !== null) p.title = title;
+  const cat = prompt('القسم:', p.cat);
+  if (cat !== null) p.cat = cat;
+  const desc = prompt('الوصف:', p.desc);
+  if (desc !== null) p.desc = desc;
+  const link = prompt('الرابط:', p.link);
+  if (link !== null) p.link = link ? validateUrl(link) : '';
+  const emoji = prompt('الإيموجي:', p.emoji);
+  if (emoji !== null) p.emoji = emoji;
+  saveData();
+  renderPortfolio(currentFilter);
+  renderPortfolioTabs();
+  renderAdminPortfolio();
+  showSuccess('port-success');
+}
+
+function deletePortfolioItem(id) {
+  if (!confirm('حذف هذا العمل؟')) return;
+  appData.portfolio = appData.portfolio.filter(p=>p.id!==id);
+  saveData();
+  renderPortfolio(currentFilter);
+  renderPortfolioTabs();
+  renderAdminPortfolio();
+}
+
+// WHY ADMIN
+function renderAdminWhy() {
+  const list = document.getElementById('admin-why-list');
+  list.innerHTML = appData.why.map(w => `
+    <div class="admin-item-card">
+      <div class="item-title">${w.icon} ${w.title}</div>
+      <div class="item-sub">${w.desc}</div>
+      <div class="admin-item-actions">
+        <button class="btn-edit" onclick="editWhyItem(${w.id})">✏️ تعديل</button>
+        <button class="btn-delete" onclick="deleteWhyItem(${w.id})">🗑️ حذف</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addWhyItem() {
+  const icon = getVal('nw-icon')||'✅';
+  const title = getVal('nw-title');
+  const desc = getVal('nw-desc');
+  if (!title) return;
+  const id = Date.now();
+  appData.why.push({id, icon, title, desc});
+  saveData(); renderWhy(); renderAdminWhy();
+  document.getElementById('nw-icon').value='';
+  document.getElementById('nw-title').value='';
+  document.getElementById('nw-desc').value='';
+  showSuccess('why-success');
+}
+
+function editWhyItem(id) {
+  const w = appData.why.find(x=>x.id===id);
+  if (!w) return;
+  const icon = prompt('الأيقونة:', w.icon);
+  if (icon !== null) w.icon = icon;
+  const title = prompt('العنوان:', w.title);
+  if (title !== null) w.title = title;
+  const desc = prompt('الوصف:', w.desc);
+  if (desc !== null) w.desc = desc;
+  saveData(); renderWhy(); renderAdminWhy();
+  showSuccess('why-success');
+}
+
+function deleteWhyItem(id) {
+  if (!confirm('حذف هذه الميزة؟')) return;
+  appData.why = appData.why.filter(w=>w.id!==id);
+  saveData(); renderWhy(); renderAdminWhy();
+}
+
+// DATA
+function exportData() {
+  const json = JSON.stringify(appData, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'portfolio-data.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      appData = {...DEFAULT_DATA, ...data};
+      saveData();
+      renderSite();
+      populateAdminFields();
+      alert('✅ تم استيراد البيانات بنجاح!');
+    } catch(err) { alert('خطأ في ملف JSON'); }
+  };
+  reader.readAsText(input.files[0]);
+}
+
+function resetData() {
+  if (!confirm('هل أنت متأكدة؟ ستُحذف جميع التغييرات!')) return;
+  localStorage.removeItem('portfolio_data_ar');
+  appData = {...DEFAULT_DATA};
+  saveData();
+  renderSite();
+  populateAdminFields();
+  alert('✅ تم إعادة الضبط!');
+}
+
+function showSuccess(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 2500);
+}
+
+// =============================================
+// APPLY SAVED DESIGN
+// =============================================
+function applySavedDesign() {
+  if (appData.primaryColor) {
+    document.documentElement.style.setProperty('--primary', appData.primaryColor);
+    document.documentElement.style.setProperty('--soft-purple', mixColor(appData.primaryColor, '#ffffff', 0.4));
+  }
+  if (appData.yellowColor) document.documentElement.style.setProperty('--yellow', appData.yellowColor);
+  if (appData.font) {
+    document.documentElement.style.setProperty('--font-title', `'${appData.font}', sans-serif`);
+    document.documentElement.style.setProperty('--font-body', `'${appData.font}', sans-serif`);
+  }
+  if (appData.fontSize) document.documentElement.style.setProperty('--font-size-base', appData.fontSize+'px');
+  if (appData.radius) document.documentElement.style.setProperty('--radius', appData.radius+'px');
+  if (appData.theme && appData.theme !== 'dark') document.body.classList.add('theme-'+appData.theme);
+  if (appData.animations === 'off') toggleAnimations('off');
+}
+
+function mixColor(hex, hex2, ratio) {
+  // Simple mix — just lighten
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  const nr = Math.min(255, Math.round(r + (255-r)*ratio));
+  const ng = Math.min(255, Math.round(g + (255-g)*ratio));
+  const nb = Math.min(255, Math.round(b + (255-b)*ratio));
+  return `#${nr.toString(16).padStart(2,'0')}${ng.toString(16).padStart(2,'0')}${nb.toString(16).padStart(2,'0')}`;
+}
+
+// =============================================
+// INIT
+// =============================================
+document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  applySavedDesign();
+  renderSite();
+  createStars();
+  createParticles();
+  typeEffect();
+  initReveal();
+  // Keyboard: Escape closes modals
+  document.addEventListener('keydown', e => {
+    if(e.key==='Escape') {
+      closeModalBtn();
+      closeAdmin();
+      closeLogin();
+    }
+  });
+});
+</script>
+</body>
+</html>

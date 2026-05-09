@@ -1,0 +1,2522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- EDIT: Page title -->
+<title>Creative Portfolio | Graphic Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CSS VARIABLES & RESET
+   ============================================================ */
+:root {
+  --purple: #9112BC;
+  --soft-purple: #AE75DA;
+  --black: #000000;
+  --yellow: #FAEB92;
+  --white: #FFFFFF;
+  --light-gray: #F6F6F6;
+  --dark-bg: #0a0010;
+  --card-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(174,117,218,0.18);
+  --glow-purple: rgba(145,18,188,0.45);
+  --glow-yellow: rgba(250,235,146,0.3);
+  --radius: 24px;
+  --transition: 0.35s cubic-bezier(.4,0,.2,1);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: var(--dark-bg);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+.cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--yellow);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.1s ease;
+  transform: translate(-50%,-50%);
+}
+.cursor-trail {
+  position: fixed;
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--soft-purple);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.18s ease, opacity 0.2s;
+  transform: translate(-50%,-50%);
+  opacity: 0.6;
+}
+
+/* ============================================================
+   SCROLL PROGRESS BAR
+   ============================================================ */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple), var(--yellow));
+  z-index: 9999;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ============================================================
+   BACKGROUND BLOBS & FLOATING SHAPES
+   ============================================================ */
+.blob-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.18;
+  animation: blobMove 18s ease-in-out infinite alternate;
+}
+.blob-1 { width: 520px; height: 520px; background: var(--purple); top: -120px; left: -100px; animation-duration: 20s; }
+.blob-2 { width: 400px; height: 400px; background: var(--yellow); bottom: 10%; right: -80px; animation-duration: 16s; animation-delay: -5s; }
+.blob-3 { width: 340px; height: 340px; background: var(--soft-purple); top: 45%; left: 35%; animation-duration: 24s; animation-delay: -9s; }
+.blob-4 { width: 280px; height: 280px; background: var(--yellow); top: 20%; right: 20%; animation-duration: 14s; animation-delay: -3s; }
+
+@keyframes blobMove {
+  0%   { transform: translate(0,0) scale(1); }
+  33%  { transform: translate(40px,-60px) scale(1.08); }
+  66%  { transform: translate(-30px,50px) scale(0.94); }
+  100% { transform: translate(20px,20px) scale(1.04); }
+}
+
+.floating-shape {
+  position: absolute;
+  pointer-events: none;
+  animation: floatShape 7s ease-in-out infinite alternate;
+}
+.star {
+  width: 6px; height: 6px;
+  background: var(--yellow);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--yellow);
+}
+.circle-deco {
+  border-radius: 50%;
+  border: 1.5px solid var(--soft-purple);
+  opacity: 0.35;
+}
+@keyframes floatShape {
+  0%   { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-22px) rotate(20deg); }
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  padding: 0 5%;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10,0,16,0.7);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--glass-border);
+  transition: var(--transition);
+}
+nav.scrolled {
+  background: rgba(10,0,16,0.95);
+  box-shadow: 0 4px 32px rgba(145,18,188,0.12);
+}
+.logo {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  background: linear-gradient(135deg, var(--soft-purple), var(--yellow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  color: rgba(255,255,255,0.72);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: var(--transition);
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--yellow);
+  transition: var(--transition);
+}
+.nav-links a:hover { color: var(--yellow); }
+.nav-links a:hover::after { width: 100%; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  background: none;
+  border: none;
+}
+.hamburger span {
+  display: block;
+  width: 26px; height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 68px; left: 0; right: 0;
+  background: rgba(10,0,16,0.97);
+  backdrop-filter: blur(20px);
+  z-index: 899;
+  padding: 32px 5% 40px;
+  border-bottom: 1px solid var(--glass-border);
+  flex-direction: column;
+  gap: 0;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 500;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: var(--transition);
+}
+.mobile-menu a:hover { color: var(--yellow); padding-left: 10px; }
+
+/* ============================================================
+   SECTIONS COMMON
+   ============================================================ */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 110px 5%;
+}
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 14px;
+  display: block;
+}
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+.section-title span { color: var(--soft-purple); }
+.section-desc {
+  color: rgba(255,255,255,0.58);
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 560px;
+}
+.center-text { text-align: center; margin: 0 auto; }
+.center-text .section-desc { margin: 0 auto; }
+
+/* ============================================================
+   REVEAL ANIMATION
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 120px;
+  padding-bottom: 80px;
+  overflow: hidden;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(145,18,188,0.18);
+  border: 1px solid rgba(145,18,188,0.4);
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--soft-purple);
+  letter-spacing: 0.5px;
+  margin-bottom: 28px;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  background: var(--yellow);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.5)} }
+
+/* EDIT: Your name here */
+.hero-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2.6rem, 5.5vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #fff 30%, var(--soft-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-role {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 500;
+  color: var(--yellow);
+  margin-bottom: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+.hero-tags {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 28px;
+  letter-spacing: 0.3px;
+}
+.hero-typing {
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  color: rgba(255,255,255,0.72);
+  line-height: 1.7;
+  margin-bottom: 42px;
+  min-height: 60px;
+}
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background: var(--yellow);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 0.75s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.hero-btns {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* BUTTONS */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--purple), #6a0dad);
+  color: var(--white);
+  padding: 14px 32px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 0 0 0 rgba(145,18,188,0.5);
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(250,235,146,0.15), transparent);
+  opacity: 0;
+  transition: var(--transition);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(145,18,188,0.5), 0 0 0 3px rgba(145,18,188,0.2);
+}
+.btn-primary:hover::before { opacity: 1; }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--white);
+  padding: 13px 30px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  border: 1.5px solid rgba(255,255,255,0.22);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn-outline:hover {
+  border-color: var(--yellow);
+  color: var(--yellow);
+  background: rgba(250,235,146,0.06);
+  transform: translateY(-2px);
+}
+
+/* Hero Visual */
+.hero-visual {
+  position: relative;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid;
+  animation: spinRing linear infinite;
+}
+.ring-1 { width: 320px; height: 320px; border-color: rgba(145,18,188,0.25); animation-duration: 18s; }
+.ring-2 { width: 240px; height: 240px; border-color: rgba(250,235,146,0.2); animation-duration: 12s; animation-direction: reverse; }
+.ring-3 { width: 160px; height: 160px; border-color: rgba(174,117,218,0.3); animation-duration: 8s; }
+@keyframes spinRing { to { transform: rotate(360deg); } }
+
+.hero-center-card {
+  position: relative;
+  z-index: 2;
+  width: 220px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 30px 24px;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(145,18,188,0.2), inset 0 0 30px rgba(145,18,188,0.05);
+}
+.hero-icon-big {
+  font-size: 3.5rem;
+  margin-bottom: 14px;
+  display: block;
+}
+.hero-card-name {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+.hero-card-role {
+  font-size: 0.75rem;
+  color: var(--soft-purple);
+  font-weight: 500;
+}
+
+.hero-floating-badge {
+  position: absolute;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 10px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: floatBadge 4s ease-in-out infinite alternate;
+  white-space: nowrap;
+}
+.fb-1 { top: 60px; left: -20px; animation-delay: 0s; color: var(--yellow); }
+.fb-2 { top: 80px; right: -10px; animation-delay: -1.5s; color: var(--soft-purple); }
+.fb-3 { bottom: 100px; left: 0; animation-delay: -0.8s; color: var(--white); }
+.fb-4 { bottom: 80px; right: 10px; animation-delay: -2.2s; color: var(--yellow); }
+@keyframes floatBadge {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-14px); }
+}
+
+/* Hero orbit books */
+.orbit-item {
+  position: absolute;
+  font-size: 1.8rem;
+  animation: orbit linear infinite;
+  transform-origin: 160px center;
+}
+.orbit-item:nth-child(1) { animation-duration: 14s; }
+.orbit-item:nth-child(2) { animation-duration: 14s; animation-delay: -4.67s; }
+.orbit-item:nth-child(3) { animation-duration: 14s; animation-delay: -9.33s; }
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(160px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(160px) rotate(-360deg); }
+}
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+#about {
+  background: linear-gradient(180deg, transparent 0%, rgba(145,18,188,0.06) 50%, transparent 100%);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.about-avatar-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.about-avatar-bg {
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(145,18,188,0.25), rgba(250,235,146,0.12));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 0 80px rgba(145,18,188,0.2);
+}
+.about-avatar-inner {
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  position: relative;
+  overflow: hidden;
+}
+.about-avatar-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 35% 35%, rgba(145,18,188,0.18), transparent 60%);
+}
+.about-exp-badge {
+  position: absolute;
+  bottom: 10px; right: 20px;
+  background: linear-gradient(135deg, var(--purple), #6a0dad);
+  border-radius: 16px;
+  padding: 14px 20px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(145,18,188,0.4);
+}
+.about-exp-badge .num {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--yellow);
+}
+.about-exp-badge .lbl {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.75);
+  font-weight: 500;
+}
+
+.about-content .section-desc { margin-bottom: 32px; }
+
+.about-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  padding: 7px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--soft-purple);
+  transition: var(--transition);
+  animation: badgePop 0.5s ease backwards;
+}
+.badge:hover {
+  background: rgba(145,18,188,0.15);
+  border-color: var(--soft-purple);
+  color: var(--yellow);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 20px rgba(145,18,188,0.25);
+}
+@keyframes badgePop { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+.badge:nth-child(1){animation-delay:.1s} .badge:nth-child(2){animation-delay:.2s}
+.badge:nth-child(3){animation-delay:.3s} .badge:nth-child(4){animation-delay:.4s}
+
+/* Stats */
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 36px;
+}
+.stat-item {
+  text-align: center;
+  padding: 20px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  transition: var(--transition);
+}
+.stat-item:hover {
+  background: rgba(145,18,188,0.1);
+  border-color: var(--soft-purple);
+  transform: translateY(-3px);
+}
+.stat-num {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: var(--yellow);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-lbl {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  font-weight: 500;
+}
+
+/* ============================================================
+   SERVICES SECTION
+   ============================================================ */
+#services {
+  background: linear-gradient(180deg, transparent, rgba(250,235,146,0.03) 50%, transparent);
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+  max-width: 1200px;
+  margin: 60px auto 0;
+}
+.service-card {
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: var(--transition);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(145,18,188,0.18), transparent 65%);
+  opacity: 0;
+  transition: var(--transition);
+}
+.service-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--soft-purple);
+  box-shadow: 0 0 40px rgba(145,18,188,0.3), 0 0 80px rgba(145,18,188,0.1), inset 0 0 30px rgba(145,18,188,0.06);
+}
+.service-card:hover::before { opacity: 1; }
+.service-icon {
+  font-size: 2.4rem;
+  margin-bottom: 18px;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(250,235,146,0.4));
+}
+.service-name {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: var(--white);
+}
+.service-desc {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.7;
+}
+.service-arrow {
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--soft-purple);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: var(--transition);
+}
+.service-card:hover .service-arrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--yellow);
+}
+
+/* ============================================================
+   PORTFOLIO SECTION
+   ============================================================ */
+#portfolio {
+  background: transparent;
+}
+.portfolio-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 48px auto 0;
+  max-width: 1200px;
+}
+.tab-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  padding: 9px 22px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.tab-btn:hover, .tab-btn.active {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: var(--white);
+  box-shadow: 0 4px 20px rgba(145,18,188,0.35);
+}
+
+.portfolio-category {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: none;
+  animation: fadeUp 0.5s ease;
+}
+.portfolio-category.active { display: block; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+.category-header {
+  margin: 48px 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.category-header::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--glass-border), transparent);
+}
+.category-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--soft-purple);
+  white-space: nowrap;
+}
+.category-desc {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.48);
+  max-width: 600px;
+  margin-bottom: 28px;
+}
+
+.portfolio-grid {
+  display: grid;
+  gap: 22px;
+}
+.pg-3 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.pg-2 { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+.pg-4 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+/* Portfolio Card */
+.portfolio-card {
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  animation: fadeUp 0.5s ease backwards;
+}
+.portfolio-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  border-color: var(--soft-purple);
+  box-shadow: 0 12px 50px rgba(145,18,188,0.35), 0 0 80px rgba(145,18,188,0.1);
+}
+.portfolio-card .click-hint {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: rgba(145,18,188,0.75);
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  opacity: 0;
+  transition: var(--transition);
+  backdrop-filter: blur(6px);
+  z-index: 5;
+}
+.portfolio-card:hover .click-hint { opacity: 1; }
+
+/* Mockup previews */
+.mockup {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Social media mockup */
+.sm-mockup {
+  background: linear-gradient(135deg, #1a0028, #2d0046);
+  padding: 20px;
+}
+.sm-inner {
+  background: rgba(255,255,255,0.07);
+  border-radius: 16px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.sm-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(145,18,188,0.3), rgba(250,235,146,0.1));
+}
+.sm-emoji { font-size: 2rem; margin-bottom: 8px; position: relative; z-index: 1; }
+.sm-title { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 0.85rem; color: var(--yellow); position: relative; z-index: 1; margin-bottom: 6px; }
+.sm-lines { display: flex; flex-direction: column; gap: 4px; width: 80%; position: relative; z-index: 1; }
+.sm-line { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.2); }
+.sm-line.w60 { width: 60%; align-self: center; }
+.sm-line.w80 { width: 80%; align-self: center; }
+.sm-accent { position: absolute; width: 60px; height: 60px; border-radius: 50%; background: rgba(145,18,188,0.3); bottom: -20px; right: -10px; z-index: 0; }
+
+/* Ebook mockup */
+.ebook-mockup { background: linear-gradient(135deg, #0d001a, #1a0030); }
+.ebook-cover {
+  width: 100px; height: 140px;
+  border-radius: 4px 12px 12px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 4px 4px 20px rgba(0,0,0,0.5), -2px 0 0 rgba(145,18,188,0.5);
+  position: relative;
+  overflow: hidden;
+}
+.ebook-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
+}
+.ebook-emoji { font-size: 1.8rem; margin-bottom: 8px; position: relative; z-index: 1; }
+.ebook-title { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 0.6rem; color: var(--white); position: relative; z-index: 1; line-height: 1.3; }
+.ebook-subtitle { font-size: 0.5rem; color: rgba(255,255,255,0.5); position: relative; z-index: 1; margin-top: 3px; }
+.ebook-spine { width: 16px; height: 140px; border-radius: 4px 0 0 4px; display: flex; align-items: center; justify-content: center; }
+
+/* Kids story mockup */
+.kids-mockup {
+  border-radius: 0;
+  padding: 16px;
+  justify-content: center;
+}
+.kids-scene {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.kids-emoji { font-size: 2.4rem; position: relative; z-index: 1; margin-bottom: 6px; }
+.kids-title { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 0.82rem; position: relative; z-index: 1; color: var(--white); text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+.kids-deco { position: absolute; font-size: 1.2rem; opacity: 0.5; }
+
+/* Research mockup */
+.doc-mockup {
+  background: linear-gradient(135deg, #0a0018, #130022);
+  padding: 20px;
+}
+.doc-page {
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.doc-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.doc-icon { font-size: 1.2rem; }
+.doc-h { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.7rem; color: var(--yellow); }
+.doc-line { height: 5px; border-radius: 3px; background: rgba(255,255,255,0.12); }
+.doc-line.hl { background: rgba(145,18,188,0.4); }
+.doc-line.w30 { width: 30%; }
+.doc-line.w55 { width: 55%; }
+.doc-line.w80 { width: 80%; }
+.doc-line.w100 { width: 100%; }
+.doc-line.w70 { width: 70%; }
+.doc-line.w45 { width: 45%; }
+.doc-dots { display: flex; gap: 5px; margin-top: 2px; }
+.doc-dot { width: 5px; height: 5px; border-radius: 50%; }
+
+/* Print mockup */
+.print-mockup { background: linear-gradient(135deg, #0a0018, #1a0028); padding: 16px; }
+.flyer-preview {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.bcard-wrap { display: flex; align-items: center; justify-content: center; height: 100%; }
+.bcard {
+  width: 160px; height: 90px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12px 14px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.bcard::before { content:''; position:absolute; top:-20px; right:-20px; width:70px; height:70px; border-radius:50%; }
+.bcard-name { font-family:'Poppins',sans-serif; font-weight:800; font-size:0.72rem; position:relative; z-index:1; }
+.bcard-role { font-size:0.6rem; opacity:0.7; position:relative; z-index:1; margin-top:2px; }
+.bcard-lines { display:flex; flex-direction:column; gap:3px; margin-top:8px; width:80%; }
+.bcard-line { height:3px; border-radius:2px; background:rgba(255,255,255,0.2); }
+
+/* Portfolio card info */
+.portfolio-card-info {
+  padding: 20px 22px 22px;
+}
+.pcard-cat {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--soft-purple);
+  margin-bottom: 7px;
+}
+.pcard-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: var(--white);
+}
+.pcard-desc {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.48);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.pcard-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(145,18,188,0.18);
+  border: 1px solid rgba(145,18,188,0.35);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--soft-purple);
+  transition: var(--transition);
+  text-decoration: none;
+}
+.pcard-btn:hover, .portfolio-card:hover .pcard-btn {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: var(--white);
+}
+.link-indicator {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 6px var(--yellow);
+  margin-right: 3px;
+}
+.no-link-indicator {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  margin-right: 3px;
+}
+
+/* ============================================================
+   WHY WORK WITH ME
+   ============================================================ */
+#why {
+  background: linear-gradient(180deg, transparent, rgba(145,18,188,0.07) 50%, transparent);
+}
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+  max-width: 1200px;
+  margin: 60px auto 0;
+}
+.why-card {
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 30px 28px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  transition: var(--transition);
+}
+.why-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--soft-purple);
+  box-shadow: 0 8px 32px rgba(145,18,188,0.2);
+}
+.why-check {
+  width: 44px; height: 44px;
+  min-width: 44px;
+  background: linear-gradient(135deg, var(--purple), #6a0dad);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 16px rgba(145,18,188,0.35);
+  animation: checkPop 0.5s ease backwards;
+}
+@keyframes checkPop { from{transform:scale(0)} to{transform:scale(1)} }
+
+.why-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+.why-desc { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================ */
+#contact {
+  background: linear-gradient(180deg, transparent, rgba(250,235,146,0.04) 50%, transparent);
+}
+.contact-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin: 48px 0 40px;
+}
+.contact-card {
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 28px 22px;
+  text-align: center;
+  transition: var(--transition);
+  text-decoration: none;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.contact-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--soft-purple);
+  box-shadow: 0 8px 40px rgba(145,18,188,0.3);
+}
+.contact-icon { font-size: 2rem; }
+.contact-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft-purple); }
+/* EDIT: Contact details below */
+.contact-val { font-size: 0.88rem; font-weight: 600; }
+
+.wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: var(--white);
+  padding: 16px 40px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: var(--transition);
+  box-shadow: 0 8px 32px rgba(37,211,102,0.3);
+}
+.wa-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 48px rgba(37,211,102,0.4);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px 5%;
+  border-top: 1px solid var(--glass-border);
+  color: rgba(255,255,255,0.35);
+  font-size: 0.82rem;
+}
+footer span { color: var(--soft-purple); }
+
+/* ============================================================
+   BACK TO TOP
+   ============================================================ */
+#back-top {
+  position: fixed;
+  bottom: 30px; right: 30px;
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--purple), #6a0dad);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  z-index: 800;
+  box-shadow: 0 4px 20px rgba(145,18,188,0.45);
+  transition: var(--transition);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+#back-top.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+#back-top:hover {
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 8px 32px rgba(145,18,188,0.55);
+}
+
+/* ============================================================
+   MODAL (preview when no link)
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.modal-box {
+  background: #110020;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 40px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 80px rgba(145,18,188,0.3);
+  transform: translateY(20px) scale(0.96);
+  transition: transform 0.3s ease;
+}
+.modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+.modal-close {
+  position: absolute;
+  top: 18px; right: 18px;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  border-radius: 50%;
+  width: 34px; height: 34px;
+  font-size: 1rem;
+  color: var(--white);
+  cursor: pointer;
+  display: flex; align-items:center; justify-content:center;
+  transition: var(--transition);
+}
+.modal-close:hover { background: rgba(255,255,255,0.15); }
+.modal-icon { font-size: 3.5rem; margin-bottom: 18px; display: block; }
+.modal-title { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.3rem; margin-bottom: 10px; }
+.modal-cat { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft-purple); margin-bottom: 14px; }
+.modal-desc { font-size: 0.88rem; color: rgba(255,255,255,0.58); line-height: 1.7; margin-bottom: 24px; }
+.modal-no-link { font-size: 0.8rem; color: rgba(255,255,255,0.35); font-style: italic; }
+
+/* ============================================================
+   ADMIN PANEL
+   ============================================================ */
+#admin-toggle {
+  position: fixed;
+  bottom: 30px; left: 30px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  padding: 10px 18px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  z-index: 800;
+  transition: var(--transition);
+}
+#admin-toggle:hover { color: var(--soft-purple); border-color: var(--soft-purple); }
+
+.admin-panel {
+  position: fixed;
+  bottom: 80px; left: 30px;
+  width: 400px;
+  background: #110020;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 28px;
+  z-index: 9000;
+  display: none;
+  box-shadow: 0 0 60px rgba(145,18,188,0.25);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.admin-panel.open { display: block; }
+.admin-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+  color: var(--yellow);
+}
+.admin-sub { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-bottom: 22px; }
+.admin-item-select {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: var(--white);
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+  outline: none;
+}
+.admin-item-select option { background: #110020; }
+.admin-input {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: var(--white);
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+  outline: none;
+  transition: var(--transition);
+}
+.admin-input:focus { border-color: var(--soft-purple); background: rgba(145,18,188,0.1); }
+.admin-input::placeholder { color: rgba(255,255,255,0.3); }
+.admin-btn-row { display: flex; gap: 10px; }
+.admin-save {
+  flex: 1;
+  background: linear-gradient(135deg, var(--purple), #6a0dad);
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.admin-save:hover { opacity: 0.85; }
+.admin-clear {
+  background: rgba(255,80,80,0.15);
+  border: 1px solid rgba(255,80,80,0.25);
+  border-radius: 12px;
+  padding: 10px 16px;
+  color: rgba(255,120,120,0.8);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.admin-clear:hover { background: rgba(255,80,80,0.25); }
+.admin-current-link {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: rgba(250,235,146,0.07);
+  border: 1px solid rgba(250,235,146,0.15);
+  border-radius: 10px;
+  font-size: 0.76rem;
+  color: rgba(250,235,146,0.7);
+  word-break: break-all;
+}
+
+/* ============================================================
+   WAVE DIVIDER
+   ============================================================ */
+.wave-divider {
+  display: block;
+  overflow: hidden;
+  line-height: 0;
+  position: relative;
+  z-index: 1;
+}
+.wave-divider svg { display: block; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:900px){
+  .hero-inner { grid-template-columns: 1fr; text-align: center; }
+  .hero-visual { display: none; }
+  .hero-btns { justify-content: center; }
+  .about-grid { grid-template-columns: 1fr; text-align: center; }
+  .about-badges { justify-content: center; }
+  .about-avatar-wrap { order: -1; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .about-stats { grid-template-columns: repeat(3, 1fr); }
+}
+@media(max-width:600px){
+  section { padding: 80px 5%; }
+  .about-stats { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stat-num { font-size: 1.4rem; }
+  .admin-panel { width: calc(100vw - 40px); left: 20px; }
+  .hero-btns { flex-direction: column; align-items: center; }
+}
+
+/* ============================================================
+   PRINT-FRIENDLY
+   ============================================================ */
+@media print {
+  body { background: white; color: black; cursor: auto; }
+  nav, #back-top, #admin-toggle, .admin-panel, .blob-container, .cursor, .cursor-trail, #progress-bar { display: none !important; }
+  section { padding: 40px 5%; background: white; }
+  .service-card, .portfolio-card, .why-card, .contact-card {
+    background: #f5f5f5; border: 1px solid #ddd; color: black; box-shadow: none;
+  }
+  .section-title, .hero-name { color: black; -webkit-text-fill-color: black; }
+  .pcard-title, .service-name, .why-title { color: black; }
+  .section-desc, .service-desc, .pcard-desc, .why-desc, .about-badges .badge { color: #555; }
+  .portfolio-card .mockup { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursor-trail"></div>
+
+<!-- Progress Bar -->
+<div id="progress-bar"></div>
+
+<!-- Background blobs -->
+<div class="blob-container">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav id="navbar">
+  <!-- EDIT: Your logo/name -->
+  <div class="logo">✦ DesignStudio</div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#why">Why Me</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#hero" class="mobile-link">Home</a>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#portfolio" class="mobile-link">Portfolio</a>
+  <a href="#why" class="mobile-link">Why Me</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+</div>
+
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge reveal">
+        <span class="hero-badge-dot"></span>
+        Available for new projects
+      </div>
+      <!-- EDIT: Your name -->
+      <h1 class="hero-name reveal reveal-delay-1">Ahlam Garah</h1>
+      <p class="hero-role reveal reveal-delay-2">Graphic Designer & Digital Creator</p>
+      <p class="hero-tags reveal reveal-delay-2">Social Media • Ebooks • Kids Stories • Print Design</p>
+      <p class="hero-typing reveal reveal-delay-3"><span id="typing-text"></span><span class="typing-cursor"></span></p>
+      <div class="hero-btns reveal reveal-delay-4">
+        <a href="#portfolio" class="btn-primary">✦ View Portfolio</a>
+        <a href="#contact" class="btn-outline">✉ Contact Me</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-ring ring-1"></div>
+      <div class="hero-ring ring-2"></div>
+      <div class="hero-ring ring-3"></div>
+      <div style="position:absolute;width:320px;height:320px;display:flex;align-items:center;justify-content:center;">
+        <div class="orbit-item" style="animation-delay:0s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+</svg></div>
+        <div class="orbit-item" style="animation-delay:-4.67s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-palette-fill" viewBox="0 0 16 16">
+  <path d="M12.433 10.07C14.133 10.585 16 11.15 16 8a8 8 0 1 0-8 8c1.996 0 1.826-1.504 1.649-3.08-.124-1.101-.252-2.237.351-2.92.465-.527 1.42-.237 2.433.07M8 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m4.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3M5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+</svg></div>
+        <div class="orbit-item" style="animation-delay:-9.33s;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+  <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
+</svg></div>
+      </div>
+      <div class="hero-center-card">
+        <span class="hero-icon-big"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+  <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
+</svg></span>
+        <!-- EDIT: Your name on card -->
+        <div class="hero-card-name">Ahlam Garah</div>
+        <div class="hero-card-role">Graphic Designer</div>
+      </div>
+      <div class="hero-floating-badge fb-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-fill" viewBox="0 0 16 16">
+  <path d="M8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+</svg> Book Designs</div>
+      <div class="hero-floating-badge fb-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bluesky" viewBox="0 0 16 16">
+  <path d="M3.468 1.948C5.303 3.325 7.276 6.118 8 7.616c.725-1.498 2.698-4.29 4.532-5.668C13.855.955 16 .186 16 2.632c0 .489-.28 4.105-.444 4.692-.572 2.04-2.653 2.561-4.504 2.246 3.236.551 4.06 2.375 2.281 4.2-3.376 3.464-4.852-.87-5.23-1.98-.07-.204-.103-.3-.103-.218 0-.081-.033.014-.102.218-.379 1.11-1.855 5.444-5.231 1.98-1.778-1.825-.955-3.65 2.28-4.2-1.85.315-3.932-.205-4.503-2.246C.28 6.737 0 3.12 0 2.632 0 .186 2.145.955 3.468 1.948"/>
+</svg> Social Media</div>
+      <div class="hero-floating-badge fb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+  <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
+</svg> Kids Stories</div>
+      <div class="hero-floating-badge fb-4"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal" viewBox="0 0 16 16">
+  <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+</svg> Print Ready</div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave divider -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px;width:100%">
+    <path d="M0,30 C240,70 480,0 720,30 C960,60 1200,10 1440,30 L1440,60 L0,60 Z" fill="rgba(145,18,188,0.07)"/>
+  </svg>
+</div>
+
+<!-- ============================================================
+     ABOUT SECTION
+     ============================================================ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-avatar-wrap reveal">
+      <div class="about-avatar-bg">
+        <div class="about-avatar-inner"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+  <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
+</svg></div>
+      </div>
+      <div class="about-exp-badge">
+        <div class="num">100+</div>
+        <div class="lbl">Projects Done</div>
+      </div>
+    </div>
+    <div class="about-content">
+      <span class="section-label reveal">About Me</span>
+      <h2 class="section-title reveal reveal-delay-1">Passionate Designer<br><span>For Creative Projects</span></h2>
+      <p class="section-desc reveal reveal-delay-2">
+        Passionate graphic designer specialized in creating modern and attractive visual content.
+        I help small businesses and libraries with social media designs, ebooks, educational content,
+        kids stories, and printable materials.
+      </p>
+      <div class="about-badges reveal reveal-delay-3">
+        <span class="badge">✦ Creative</span>
+        <span class="badge"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+  <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+</svg> Fast</span>
+        <span class="badge"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal" viewBox="0 0 16 16">
+  <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+</svg> Organized</span>
+        <span class="badge">🔍 Detail-Oriented</span>
+      </div>
+      <div class="about-stats reveal reveal-delay-4">
+        <div class="stat-item">
+          <div class="stat-num">50+</div>
+          <div class="stat-lbl">Happy Clients</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100+</div>
+          <div class="stat-lbl">Designs Made</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2+</div>
+          <div class="stat-lbl">Years Exp.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVICES SECTION
+     ============================================================ -->
+<section id="services">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="center-text reveal">
+      <span class="section-label">What I Offer</span>
+      <h2 class="section-title">My <span>Services</span></h2>
+      <p class="section-desc">Everything your library or bookshop needs to look professional and attract more customers.</p>
+    </div>
+    <!-- EDIT: Services cards below -->
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-icon">📱</span>
+        <div class="service-name">Social Media Posts</div>
+        <div class="service-desc">Eye-catching social media content designed to attract followers and grow your audience online.</div>
+        <div class="service-arrow">Get Started →</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-icon">🗞️</span>
+        <div class="service-name">Posters & Flyers</div>
+        <div class="service-desc">Professional print-ready posters and flyers for events, promotions, and announcements.</div>
+        <div class="service-arrow">Get Started →</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-icon">📖</span>
+        <div class="service-name">Ebook Design</div>
+        <div class="service-desc">Beautiful ebook covers and interior layouts that make your content shine on any screen.</div>
+        <div class="service-arrow">Get Started →</div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+  <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+</svg></span>
+        <div class="service-name">Kids Story Design</div>
+        <div class="service-desc">Colorful, creative designs for children's books that engage young readers and spark imagination.</div>
+        <div class="service-arrow">Get Started →</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal" viewBox="0 0 16 16">
+  <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+</svg></span>
+        <div class="service-name">Research Formatting</div>
+        <div class="service-desc">Organized and professional layouts for reports, school projects, and research documents.</div>
+        <div class="service-arrow">Get Started →</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal" viewBox="0 0 16 16">
+  <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+</svg></span>
+        <div class="service-name">Printable PDFs</div>
+        <div class="service-desc">High-quality printable materials ready for home or professional printing in any size.</div>
+        <div class="service-arrow">Get Started →</div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <span class="service-icon">📚</span>
+        <div class="service-name">Educational Worksheets</div>
+        <div class="service-desc">Engaging worksheets for students and learners, designed to make learning fun and effective.</div>
+        <div class="service-arrow">Get Started →</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-icon">🍽️</span>
+        <div class="service-name">Menus & Catalogues</div>
+        <div class="service-desc">Elegant menus and catalogues that showcase your products beautifully and professionally.</div>
+        <div class="service-arrow">Get Started →</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-icon">✦</span>
+        <div class="service-name">Branding Basics</div>
+        <div class="service-desc">Logo, color palette, and basic brand identity design to help your business stand out.</div>
+        <div class="service-arrow">Get Started →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave divider -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px;width:100%">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="rgba(250,235,146,0.04)"/>
+  </svg>
+</div>
+
+<!-- ============================================================
+     PORTFOLIO SECTION
+     ============================================================ -->
+<section id="portfolio">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="center-text reveal">
+      <span class="section-label">My Work</span>
+      <h2 class="section-title">Portfolio <span>Showcase</span></h2>
+      <p class="section-desc">Click on any card to view the full design. Cards with a glowing dot have a direct link.</p>
+    </div>
+
+    <!-- Portfolio Tabs -->
+    <div class="portfolio-tabs">
+      <button class="tab-btn active" onclick="showTab('all')">All Projects</button>
+      <button class="tab-btn" onclick="showTab('social')">📱 Social Media</button>
+      <button class="tab-btn" onclick="showTab('ebook')">📖 Ebooks</button>
+      <button class="tab-btn" onclick="showTab('kids')">🌈 Kids Stories</button>
+      <button class="tab-btn" onclick="showTab('research')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal" viewBox="0 0 16 16">
+  <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+  <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+</svg> Research</button>
+      <button class="tab-btn" onclick="showTab('print')">🖨️ Print Design</button>
+    </div>
+
+    <!-- ALL / SOCIAL MEDIA -->
+    <div class="portfolio-category active" id="cat-all">
+
+      <!-- Social Media -->
+      <div class="category-header">
+        <span class="category-title">📱 Social Media Designs</span>
+      </div>
+      <p class="category-desc">Modern social media content designed to attract customers and improve brand image.</p>
+      <div class="portfolio-grid pg-3">
+
+        <div class="portfolio-card reveal" data-id="sm-1" onclick="handleCardClick('sm-1')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup sm-mockup">
+            <div class="sm-inner">
+              <div class="sm-emoji">📚</div>
+              <div class="sm-title">BACK TO SCHOOL</div>
+              <div class="sm-lines">
+                <div class="sm-line w80"></div>
+                <div class="sm-line w60" style="background:rgba(250,235,146,0.4)"></div>
+                <div class="sm-line w45" style="width:45%;align-self:center"></div>
+              </div>
+              <div class="sm-accent"></div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Social Media</div>
+            <div class="pcard-title">Back to School Promo</div>
+            <div class="pcard-desc">Vibrant promotional post for the new school season.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-sm-1"></span>View Design →</button>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-1" data-id="sm-2" onclick="handleCardClick('sm-2')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup sm-mockup">
+            <div class="sm-inner" style="background:rgba(250,235,146,0.07)">
+              <div class="sm-emoji">🎁</div>
+              <div class="sm-title" style="color:var(--soft-purple)">SPECIAL OFFER</div>
+              <div style="font-size:0.6rem;color:rgba(255,255,255,0.5);position:relative;z-index:1;margin-top:4px;">Limited Time Only</div>
+              <div class="sm-lines">
+                <div class="sm-line w80" style="background:rgba(174,117,218,0.4)"></div>
+                <div class="sm-line w60"></div>
+              </div>
+              <div class="sm-accent" style="background:rgba(250,235,146,0.2);right:auto;left:-10px;top:-20px;"></div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Social Media</div>
+            <div class="pcard-title">Special Book Offer</div>
+            <div class="pcard-desc">Promotional post for a limited-time book discount.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-sm-2"></span>View Design →</button>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-2" data-id="sm-3" onclick="handleCardClick('sm-3')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup sm-mockup">
+            <div class="sm-inner">
+              <div class="sm-emoji">📸</div>
+              <div class="sm-title">LIBRARY STORY</div>
+              <div style="font-size:0.58rem;color:var(--yellow);position:relative;z-index:1;margin:2px 0 6px;">@yourlibrary</div>
+              <div class="sm-lines">
+                <div class="sm-line w80"></div>
+                <div class="sm-line w60"></div>
+                <div class="sm-line w40" style="width:40%;align-self:center;background:rgba(250,235,146,0.3)"></div>
+              </div>
+              <div class="sm-accent" style="width:80px;height:80px;top:-25px;right:-25px;"></div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Social Media</div>
+            <div class="pcard-title">Library Instagram Post</div>
+            <div class="pcard-desc">Engaging story-format post to drive library visits.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-sm-3"></span>View Design →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ebooks -->
+      <div class="category-header" style="margin-top:60px">
+        <span class="category-title">📖 Ebook Design</span>
+      </div>
+      <p class="category-desc">Professional ebook layouts with clean typography and attractive covers.</p>
+      <div class="portfolio-grid pg-2">
+
+        <div class="portfolio-card reveal" data-id="eb-1" onclick="handleCardClick('eb-1')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup ebook-mockup" style="gap:12px;flex-direction:row;align-items:center;justify-content:center;padding:20px;">
+            <div class="ebook-spine" style="background:linear-gradient(180deg,#6a0dad,var(--purple));">&nbsp;</div>
+            <div class="ebook-cover" style="background:linear-gradient(145deg,#1a0030,#340060);">
+              <div class="ebook-emoji">📚</div>
+              <div class="ebook-title">The Reading Guide</div>
+              <div class="ebook-subtitle">Complete Edition</div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Ebook Design</div>
+            <div class="pcard-title">Ebook Cover Design</div>
+            <div class="pcard-desc">Elegant, professional cover for educational ebooks.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-eb-1"></span>View Design →</button>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-1" data-id="eb-2" onclick="handleCardClick('eb-2')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup doc-mockup">
+            <div class="doc-page" style="flex-direction:row;gap:10px;padding:14px;">
+              <div style="flex:1;display:flex;flex-direction:column;gap:5px;border-right:1px solid rgba(255,255,255,0.06);padding-right:10px;">
+                <div class="doc-line hl w100"></div>
+                <div class="doc-line w80"></div>
+                <div class="doc-line w70"></div>
+                <div class="doc-line w100"></div>
+                <div class="doc-line w55"></div>
+                <div class="doc-line w80"></div>
+                <div class="doc-line w100"></div>
+                <div class="doc-line w45"></div>
+                <div class="doc-line w70"></div>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:5px;padding-left:4px;">
+                <div style="height:60px;background:linear-gradient(135deg,rgba(145,18,188,0.2),rgba(250,235,146,0.1));border-radius:6px;margin-bottom:5px;"></div>
+                <div class="doc-line w100"></div>
+                <div class="doc-line w80"></div>
+                <div class="doc-line w60"></div>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Ebook Design</div>
+            <div class="pcard-title">Interior Page Layout</div>
+            <div class="pcard-desc">Clean, readable two-column interior layout for ebooks.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-eb-2"></span>View Design →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kids Stories -->
+      <div class="category-header" style="margin-top:60px">
+        <span class="category-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+  <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+</svg> Kids Stories</span>
+      </div>
+      <p class="category-desc">Creative and colorful kids story designs made to entertain and educate children.</p>
+      <div class="portfolio-grid pg-3">
+
+        <div class="portfolio-card reveal" data-id="kids-1" onclick="handleCardClick('kids-1')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup kids-mockup">
+            <div class="kids-scene" style="background:linear-gradient(135deg,#ff6b35,#f7c59f);">
+              <div class="kids-emoji">🦁</div>
+              <div class="kids-title" style="color:#3d0000;text-shadow:none;">The Brave Little Lion</div>
+              <div class="kids-deco" style="top:8px;left:8px;">⭐</div>
+              <div class="kids-deco" style="bottom:8px;right:8px;">🌟</div>
+              <div class="kids-deco" style="top:8px;right:14px;">✨</div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Kids Story</div>
+            <div class="pcard-title">The Brave Little Lion</div>
+            <div class="pcard-desc">Warm orange-themed story about courage and friendship.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-kids-1"></span>View Design →</button>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-1" data-id="kids-2" onclick="handleCardClick('kids-2')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup kids-mockup">
+            <div class="kids-scene" style="background:linear-gradient(135deg,#7B2FF7,#a855f7);">
+              <div class="kids-emoji">✨</div>
+              <div class="kids-title">Lina & the Magic Book</div>
+              <div class="kids-deco" style="top:8px;left:10px;">🌙</div>
+              <div class="kids-deco" style="bottom:8px;right:8px;">⭐</div>
+              <div class="kids-deco" style="top:10px;right:10px;">💫</div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Kids Story</div>
+            <div class="pcard-title">Lina and the Magic Book</div>
+            <div class="pcard-desc">Magical purple-themed adventure about reading.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-kids-2"></span>View Design →</button>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-2" data-id="kids-3" onclick="handleCardClick('kids-3')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup kids-mockup">
+            <div class="kids-scene" style="background:linear-gradient(135deg,#06b6d4,#0e7490);">
+              <div class="kids-emoji">🔤</div>
+              <div class="kids-title">My First Alphabet Story</div>
+              <div class="kids-deco" style="top:8px;left:8px;">🅰️</div>
+              <div class="kids-deco" style="bottom:8px;right:8px;">🅱️</div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Kids Story</div>
+            <div class="pcard-title">My First Alphabet Story</div>
+            <div class="pcard-desc">Colorful ABC learning book for early childhood.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-kids-3"></span>View Design →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Research -->
+      <div class="category-header" style="margin-top:60px">
+        <span class="category-title">📝 Research & Documents</span>
+      </div>
+      <p class="category-desc">Organized and professional formatting for reports, school projects, and research documents.</p>
+      <div class="portfolio-grid pg-3">
+
+        <div class="portfolio-card reveal" data-id="doc-1" onclick="handleCardClick('doc-1')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup doc-mockup">
+            <div class="doc-page" style="align-items:center;justify-content:center;text-align:center;gap:8px;">
+              <div class="doc-icon">📑</div>
+              <div style="height:6px;width:80%;background:linear-gradient(90deg,var(--purple),var(--soft-purple));border-radius:3px;margin-bottom:4px;"></div>
+              <div class="doc-h">RESEARCH REPORT 2024</div>
+              <div class="doc-line w60" style="align-self:center;background:rgba(250,235,146,0.3)"></div>
+              <div class="doc-line w45" style="align-self:center;"></div>
+              <div style="margin-top:8px;display:flex;gap:6px;justify-content:center;">
+                <div class="doc-dot" style="background:var(--purple);width:8px;height:8px;"></div>
+                <div class="doc-dot" style="background:var(--soft-purple);width:8px;height:8px;"></div>
+                <div class="doc-dot" style="background:var(--yellow);width:8px;height:8px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Research</div>
+            <div class="pcard-title">Research Cover Page</div>
+            <div class="pcard-desc">Professional and elegant cover for academic reports.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-doc-1"></span>View Design →</button>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-1" data-id="doc-2" onclick="handleCardClick('doc-2')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup doc-mockup">
+            <div class="doc-page">
+              <div class="doc-header"><div class="doc-icon">📋</div><div class="doc-h">TABLE OF CONTENTS</div></div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <div class="doc-line" style="width:40%;height:4px;background:rgba(145,18,188,0.3)"></div>
+                  <div style="flex:1;border-bottom:1px dotted rgba(255,255,255,0.1);"></div>
+                  <div style="font-size:0.6rem;color:rgba(250,235,146,0.6);">01</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <div class="doc-line" style="width:55%;height:4px;"></div>
+                  <div style="flex:1;border-bottom:1px dotted rgba(255,255,255,0.1);"></div>
+                  <div style="font-size:0.6rem;color:rgba(250,235,146,0.6);">02</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <div class="doc-line" style="width:48%;height:4px;background:rgba(145,18,188,0.25)"></div>
+                  <div style="flex:1;border-bottom:1px dotted rgba(255,255,255,0.1);"></div>
+                  <div style="font-size:0.6rem;color:rgba(250,235,146,0.6);">03</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <div class="doc-line" style="width:62%;height:4px;"></div>
+                  <div style="flex:1;border-bottom:1px dotted rgba(255,255,255,0.1);"></div>
+                  <div style="font-size:0.6rem;color:rgba(250,235,146,0.6);">04</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <div class="doc-line" style="width:38%;height:4px;"></div>
+                  <div style="flex:1;border-bottom:1px dotted rgba(255,255,255,0.1);"></div>
+                  <div style="font-size:0.6rem;color:rgba(250,235,146,0.6);">05</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Research</div>
+            <div class="pcard-title">Table of Contents</div>
+            <div class="pcard-desc">Clean and elegant TOC layout for long documents.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-doc-2"></span>View Design →</button>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-2" data-id="doc-3" onclick="handleCardClick('doc-3')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup doc-mockup">
+            <div class="doc-page">
+              <div class="doc-header"><div class="doc-icon">📊</div><div class="doc-h">PROFESSIONAL REPORT</div></div>
+              <div style="height:5px;background:linear-gradient(90deg,var(--purple),var(--soft-purple));border-radius:2px;margin-bottom:8px;"></div>
+              <div style="display:flex;gap:8px;">
+                <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+                  <div class="doc-line w100"></div>
+                  <div class="doc-line w80"></div>
+                  <div class="doc-line w100"></div>
+                  <div class="doc-line w70"></div>
+                  <div class="doc-line w55"></div>
+                </div>
+                <div style="width:40%;height:70px;background:linear-gradient(135deg,rgba(145,18,188,0.3),rgba(250,235,146,0.08));border-radius:6px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Research</div>
+            <div class="pcard-title">Professional Report Layout</div>
+            <div class="pcard-desc">Structured report layout for business and academic use.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-doc-3"></span>View Design →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Print -->
+      <div class="category-header" style="margin-top:60px">
+        <span class="category-title">🖨️ Print Design</span>
+      </div>
+      <div class="portfolio-grid pg-4">
+
+        <div class="portfolio-card reveal" data-id="print-1" onclick="handleCardClick('print-1')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup print-mockup">
+            <div class="flyer-preview" style="background:linear-gradient(135deg,#1a0028,#340050);">
+              <div style="font-size:1.8rem;margin-bottom:8px;">📢</div>
+              <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:0.82rem;color:var(--yellow);position:relative;z-index:1;">GRAND OPENING</div>
+              <div style="font-size:0.6rem;color:rgba(255,255,255,0.5);margin:4px 0 8px;position:relative;z-index:1;">Library Event</div>
+              <div style="width:80%;height:3px;background:linear-gradient(90deg,var(--purple),var(--yellow));border-radius:2px;position:relative;z-index:1;"></div>
+              <div style="position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(145,18,188,0.15);bottom:-40px;right:-30px;"></div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Print Design</div>
+            <div class="pcard-title">Flyer Design</div>
+            <div class="pcard-desc">Bold event flyer ready for digital and physical print.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-print-1"></span>View Design →</button>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-1" data-id="print-2" onclick="handleCardClick('print-2')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup print-mockup">
+            <div class="bcard-wrap">
+              <div class="bcard" style="background:linear-gradient(135deg,#1a0028,#340060);">
+                <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(145,18,188,0.3);"></div>
+                <!-- EDIT: Name on business card -->
+                <div class="bcard-name">Your Name</div>
+                <div class="bcard-role">Graphic Designer</div>
+                <div class="bcard-lines">
+                  <div class="bcard-line" style="background:rgba(250,235,146,0.3);"></div>
+                  <div class="bcard-line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Print Design</div>
+            <div class="pcard-title">Business Card</div>
+            <div class="pcard-desc">Luxury dark-themed business card with purple gradient.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-print-2"></span>View Design →</button>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-2" data-id="print-3" onclick="handleCardClick('print-3')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup print-mockup">
+            <div style="display:flex;gap:10px;align-items:center;justify-content:center;height:100%;">
+              <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--yellow));display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 0 20px rgba(145,18,188,0.4);">⭐</div>
+              <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--yellow),#f59e0b);display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 0 20px rgba(250,235,146,0.3);">📖</div>
+              <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--soft-purple),var(--purple));display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 0 20px rgba(174,117,218,0.4);">🎨</div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Print Design</div>
+            <div class="pcard-title">Sticker Design</div>
+            <div class="pcard-desc">Fun circular sticker set for branding and promotions.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-print-3"></span>View Design →</button>
+          </div>
+        </div>
+
+        <div class="portfolio-card reveal reveal-delay-3" data-id="print-4" onclick="handleCardClick('print-4')">
+          <span class="click-hint">👁 View Design ↗</span>
+          <div class="mockup print-mockup">
+            <div class="flyer-preview" style="background:linear-gradient(135deg,#0a0018,#1a0028);padding:12px;">
+              <div style="width:100%;height:100%;border:1px solid rgba(145,18,188,0.3);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px;">
+                <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:0.72rem;color:var(--yellow);">BOOK CATALOGUE</div>
+                <div style="height:1px;background:linear-gradient(90deg,var(--purple),transparent);"></div>
+                <div style="display:flex;gap:6px;">
+                  <div style="width:34px;height:44px;border-radius:4px;background:linear-gradient(135deg,var(--purple),#6a0dad);"></div>
+                  <div style="width:34px;height:44px;border-radius:4px;background:linear-gradient(135deg,var(--soft-purple),var(--purple));"></div>
+                  <div style="width:34px;height:44px;border-radius:4px;background:linear-gradient(135deg,rgba(250,235,146,0.3),rgba(145,18,188,0.3));"></div>
+                </div>
+                <div style="height:4px;border-radius:2px;background:rgba(255,255,255,0.08);width:80%;"></div>
+                <div style="height:4px;border-radius:2px;background:rgba(255,255,255,0.08);width:60%;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-card-info">
+            <div class="pcard-cat">Print Design</div>
+            <div class="pcard-title">Mini Catalogue / Menu</div>
+            <div class="pcard-desc">Compact book catalogue layout for library use.</div>
+            <button class="pcard-btn"><span class="no-link-indicator" id="ind-print-4"></span>View Design →</button>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- end cat-all -->
+
+    <!-- SOCIAL TAB -->
+    <div class="portfolio-category" id="cat-social">
+      <div class="category-header"><span class="category-title">📱 Social Media Designs</span></div>
+      <p class="category-desc">Modern social media content designed to attract customers and improve brand image.</p>
+      <div class="portfolio-grid pg-3">
+        <div class="portfolio-card reveal" data-id="sm-1" onclick="handleCardClick('sm-1')"><span class="click-hint">👁 View Design ↗</span><div class="mockup sm-mockup"><div class="sm-inner"><div class="sm-emoji">📚</div><div class="sm-title">BACK TO SCHOOL</div><div class="sm-lines"><div class="sm-line w80"></div><div class="sm-line w60" style="background:rgba(250,235,146,0.4)"></div></div><div class="sm-accent"></div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Social Media</div><div class="pcard-title">Back to School Promo</div><div class="pcard-desc">Vibrant promotional post for the new school season.</div><button class="pcard-btn">View Design →</button></div></div>
+        <div class="portfolio-card reveal reveal-delay-1" data-id="sm-2" onclick="handleCardClick('sm-2')"><span class="click-hint">👁 View Design ↗</span><div class="mockup sm-mockup"><div class="sm-inner" style="background:rgba(250,235,146,0.07)"><div class="sm-emoji">🎁</div><div class="sm-title" style="color:var(--soft-purple)">SPECIAL OFFER</div><div class="sm-lines"><div class="sm-line w80" style="background:rgba(174,117,218,0.4)"></div><div class="sm-line w60"></div></div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Social Media</div><div class="pcard-title">Special Book Offer</div><div class="pcard-desc">Promotional post for a limited-time book discount.</div><button class="pcard-btn">View Design →</button></div></div>
+        <div class="portfolio-card reveal reveal-delay-2" data-id="sm-3" onclick="handleCardClick('sm-3')"><span class="click-hint">👁 View Design ↗</span><div class="mockup sm-mockup"><div class="sm-inner"><div class="sm-emoji">📸</div><div class="sm-title">LIBRARY STORY</div><div class="sm-lines"><div class="sm-line w80"></div><div class="sm-line w60"></div></div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Social Media</div><div class="pcard-title">Library Instagram Post</div><div class="pcard-desc">Engaging story-format post to drive library visits.</div><button class="pcard-btn">View Design →</button></div></div>
+      </div>
+    </div>
+
+    <!-- EBOOK TAB -->
+    <div class="portfolio-category" id="cat-ebook">
+      <div class="category-header"><span class="category-title">📖 Ebook Design</span></div>
+      <p class="category-desc">Professional ebook layouts with clean typography and attractive covers.</p>
+      <div class="portfolio-grid pg-2">
+        <div class="portfolio-card reveal" data-id="eb-1" onclick="handleCardClick('eb-1')"><span class="click-hint">👁 View Design ↗</span><div class="mockup ebook-mockup" style="gap:12px;flex-direction:row;align-items:center;justify-content:center;padding:20px;"><div class="ebook-spine" style="background:linear-gradient(180deg,#6a0dad,var(--purple));">&nbsp;</div><div class="ebook-cover" style="background:linear-gradient(145deg,#1a0030,#340060);"><div class="ebook-emoji">📚</div><div class="ebook-title">The Reading Guide</div><div class="ebook-subtitle">Complete Edition</div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Ebook Design</div><div class="pcard-title">Ebook Cover Design</div><div class="pcard-desc">Elegant, professional cover for educational ebooks.</div><button class="pcard-btn">View Design →</button></div></div>
+        <div class="portfolio-card reveal reveal-delay-1" data-id="eb-2" onclick="handleCardClick('eb-2')"><span class="click-hint">👁 View Design ↗</span><div class="mockup doc-mockup"><div class="doc-page" style="flex-direction:row;gap:10px;padding:14px;"><div style="flex:1;display:flex;flex-direction:column;gap:5px;"><div class="doc-line hl w100"></div><div class="doc-line w80"></div><div class="doc-line w70"></div></div><div style="flex:1;display:flex;flex-direction:column;gap:5px;"><div style="height:60px;background:linear-gradient(135deg,rgba(145,18,188,0.2),rgba(250,235,146,0.1));border-radius:6px;"></div><div class="doc-line w100"></div></div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Ebook Design</div><div class="pcard-title">Interior Page Layout</div><div class="pcard-desc">Clean two-column interior layout for ebooks.</div><button class="pcard-btn">View Design →</button></div></div>
+      </div>
+    </div>
+
+    <!-- KIDS TAB -->
+    <div class="portfolio-category" id="cat-kids">
+      <div class="category-header"><span class="category-title">🌈 Kids Stories</span></div>
+      <p class="category-desc">Creative and colorful kids story designs made to entertain and educate children.</p>
+      <div class="portfolio-grid pg-3">
+        <div class="portfolio-card reveal" data-id="kids-1" onclick="handleCardClick('kids-1')"><span class="click-hint">👁 View Design ↗</span><div class="mockup kids-mockup"><div class="kids-scene" style="background:linear-gradient(135deg,#ff6b35,#f7c59f);"><div class="kids-emoji">🦁</div><div class="kids-title" style="color:#3d0000;text-shadow:none;">The Brave Little Lion</div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Kids Story</div><div class="pcard-title">The Brave Little Lion</div><div class="pcard-desc">Warm orange-themed story about courage and friendship.</div><button class="pcard-btn">View Design →</button></div></div>
+        <div class="portfolio-card reveal reveal-delay-1" data-id="kids-2" onclick="handleCardClick('kids-2')"><span class="click-hint">👁 View Design ↗</span><div class="mockup kids-mockup"><div class="kids-scene" style="background:linear-gradient(135deg,#7B2FF7,#a855f7);"><div class="kids-emoji">✨</div><div class="kids-title">Lina & the Magic Book</div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Kids Story</div><div class="pcard-title">Lina and the Magic Book</div><div class="pcard-desc">Magical purple-themed adventure about reading.</div><button class="pcard-btn">View Design →</button></div></div>
+        <div class="portfolio-card reveal reveal-delay-2" data-id="kids-3" onclick="handleCardClick('kids-3')"><span class="click-hint">👁 View Design ↗</span><div class="mockup kids-mockup"><div class="kids-scene" style="background:linear-gradient(135deg,#06b6d4,#0e7490);"><div class="kids-emoji">🔤</div><div class="kids-title">My First Alphabet Story</div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Kids Story</div><div class="pcard-title">My First Alphabet Story</div><div class="pcard-desc">Colorful ABC learning book for early childhood.</div><button class="pcard-btn">View Design →</button></div></div>
+      </div>
+    </div>
+
+    <!-- RESEARCH TAB -->
+    <div class="portfolio-category" id="cat-research">
+      <div class="category-header"><span class="category-title">📝 Research & Documents</span></div>
+      <p class="category-desc">Organized and professional formatting for reports, school projects, and research documents.</p>
+      <div class="portfolio-grid pg-3">
+        <div class="portfolio-card reveal" data-id="doc-1" onclick="handleCardClick('doc-1')"><span class="click-hint">👁 View Design ↗</span><div class="mockup doc-mockup"><div class="doc-page" style="align-items:center;justify-content:center;text-align:center;gap:8px;"><div class="doc-icon">📑</div><div class="doc-h">RESEARCH REPORT 2024</div><div class="doc-line w60" style="align-self:center;background:rgba(250,235,146,0.3)"></div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Research</div><div class="pcard-title">Research Cover Page</div><div class="pcard-desc">Professional and elegant cover for academic reports.</div><button class="pcard-btn">View Design →</button></div></div>
+        <div class="portfolio-card reveal reveal-delay-1" data-id="doc-2" onclick="handleCardClick('doc-2')"><span class="click-hint">👁 View Design ↗</span><div class="mockup doc-mockup"><div class="doc-page"><div class="doc-header"><div class="doc-icon">📋</div><div class="doc-h">TABLE OF CONTENTS</div></div><div style="display:flex;flex-direction:column;gap:6px;"><div style="display:flex;align-items:center;gap:4px;"><div class="doc-line" style="width:40%;height:4px;background:rgba(145,18,188,0.3)"></div><div style="flex:1;border-bottom:1px dotted rgba(255,255,255,0.1);"></div><div style="font-size:0.6rem;color:rgba(250,235,146,0.6);">01</div></div><div style="display:flex;align-items:center;gap:4px;"><div class="doc-line" style="width:55%;height:4px;"></div><div style="flex:1;border-bottom:1px dotted rgba(255,255,255,0.1);"></div><div style="font-size:0.6rem;color:rgba(250,235,146,0.6);">02</div></div></div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Research</div><div class="pcard-title">Table of Contents</div><div class="pcard-desc">Clean and elegant TOC layout for long documents.</div><button class="pcard-btn">View Design →</button></div></div>
+        <div class="portfolio-card reveal reveal-delay-2" data-id="doc-3" onclick="handleCardClick('doc-3')"><span class="click-hint">👁 View Design ↗</span><div class="mockup doc-mockup"><div class="doc-page"><div class="doc-header"><div class="doc-icon">📊</div><div class="doc-h">PROFESSIONAL REPORT</div></div><div style="height:5px;background:linear-gradient(90deg,var(--purple),var(--soft-purple));border-radius:2px;margin-bottom:8px;"></div><div class="doc-line w100"></div><div class="doc-line w80"></div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Research</div><div class="pcard-title">Professional Report Layout</div><div class="pcard-desc">Structured report layout for business and academic use.</div><button class="pcard-btn">View Design →</button></div></div>
+      </div>
+    </div>
+
+    <!-- PRINT TAB -->
+    <div class="portfolio-category" id="cat-print">
+      <div class="category-header"><span class="category-title">🖨️ Print Design</span></div>
+      <div class="portfolio-grid pg-4">
+        <div class="portfolio-card reveal" data-id="print-1" onclick="handleCardClick('print-1')"><span class="click-hint">👁 View Design ↗</span><div class="mockup print-mockup"><div class="flyer-preview" style="background:linear-gradient(135deg,#1a0028,#340050);"><div style="font-size:1.8rem;">📢</div><div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:0.82rem;color:var(--yellow);">GRAND OPENING</div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Print</div><div class="pcard-title">Flyer Design</div><div class="pcard-desc">Bold event flyer ready for digital and physical print.</div><button class="pcard-btn">View Design →</button></div></div>
+        <div class="portfolio-card reveal reveal-delay-1" data-id="print-2" onclick="handleCardClick('print-2')"><span class="click-hint">👁 View Design ↗</span><div class="mockup print-mockup"><div class="bcard-wrap"><div class="bcard" style="background:linear-gradient(135deg,#1a0028,#340060);"><div class="bcard-name">Your Name</div><div class="bcard-role">Graphic Designer</div><div class="bcard-lines"><div class="bcard-line" style="background:rgba(250,235,146,0.3);"></div></div></div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Print</div><div class="pcard-title">Business Card</div><div class="pcard-desc">Luxury dark-themed business card design.</div><button class="pcard-btn">View Design →</button></div></div>
+        <div class="portfolio-card reveal reveal-delay-2" data-id="print-3" onclick="handleCardClick('print-3')"><span class="click-hint">👁 View Design ↗</span><div class="mockup print-mockup"><div style="display:flex;gap:10px;align-items:center;justify-content:center;height:100%;"><div style="width:65px;height:65px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--yellow));display:flex;align-items:center;justify-content:center;font-size:1.6rem;">⭐</div><div style="width:65px;height:65px;border-radius:50%;background:linear-gradient(135deg,var(--yellow),#f59e0b);display:flex;align-items:center;justify-content:center;font-size:1.6rem;">📖</div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Print</div><div class="pcard-title">Sticker Design</div><div class="pcard-desc">Fun circular sticker set for branding.</div><button class="pcard-btn">View Design →</button></div></div>
+        <div class="portfolio-card reveal reveal-delay-3" data-id="print-4" onclick="handleCardClick('print-4')"><span class="click-hint">👁 View Design ↗</span><div class="mockup print-mockup"><div class="flyer-preview" style="background:linear-gradient(135deg,#0a0018,#1a0028);padding:12px;"><div style="width:100%;height:100%;border:1px solid rgba(145,18,188,0.3);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:5px;"><div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:0.65rem;color:var(--yellow);">BOOK CATALOGUE</div><div style="height:1px;background:linear-gradient(90deg,var(--purple),transparent);"></div><div style="display:flex;gap:5px;"><div style="width:30px;height:40px;border-radius:3px;background:linear-gradient(135deg,var(--purple),#6a0dad);"></div><div style="width:30px;height:40px;border-radius:3px;background:linear-gradient(135deg,var(--soft-purple),var(--purple));"></div><div style="width:30px;height:40px;border-radius:3px;background:rgba(250,235,146,0.2);"></div></div></div></div></div><div class="portfolio-card-info"><div class="pcard-cat">Print</div><div class="pcard-title">Mini Catalogue</div><div class="pcard-desc">Compact book catalogue for library display.</div><button class="pcard-btn">View Design →</button></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     WHY WORK WITH ME
+     ============================================================ -->
+<section id="why">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="center-text reveal">
+      <span class="section-label">Why Choose Me</span>
+      <h2 class="section-title">Why <span>Work With Me?</span></h2>
+      <p class="section-desc">I'm dedicated to delivering top-quality designs that help your library and bookshop grow.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-check">✦</div>
+        <div class="why-text-wrap">
+          <div class="why-title">Modern & Clean Designs</div>
+          <div class="why-desc">Contemporary aesthetics that look great on screens and in print.</div>
+        </div>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-check">⚡</div>
+        <div class="why-text-wrap">
+          <div class="why-title">Fast Communication</div>
+          <div class="why-desc">Quick responses and regular updates throughout your project.</div>
+        </div>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-check">💡</div>
+        <div class="why-text-wrap">
+          <div class="why-title">Creative Ideas</div>
+          <div class="why-desc">Unique concepts tailored specifically to your brand and audience.</div>
+        </div>
+      </div>
+      <div class="why-card reveal reveal-delay-3">
+        <div class="why-check">💰</div>
+        <div class="why-text-wrap">
+          <div class="why-title">Affordable Prices</div>
+          <div class="why-desc">High-quality design work at prices perfect for small businesses.</div>
+        </div>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-check">🔍</div>
+        <div class="why-text-wrap">
+          <div class="why-title">Attention to Details</div>
+          <div class="why-desc">Every pixel matters — nothing ships until it's pixel-perfect.</div>
+        </div>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-check">🖨️</div>
+        <div class="why-text-wrap">
+          <div class="why-title">Print & Digital Ready</div>
+          <div class="why-desc">Files delivered in formats ready for printing and digital sharing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT SECTION
+     ============================================================ -->
+<section id="contact">
+  <div class="contact-inner">
+    <span class="section-label center-text reveal">Get In Touch</span>
+    <h2 class="section-title center-text reveal reveal-delay-1">Let's Work <span>Together</span></h2>
+    <p class="section-desc center-text reveal reveal-delay-2">Ready to take your library or bookshop to the next level? Let's create something amazing together.</p>
+
+    <div class="contact-cards">
+      <!-- EDIT: WhatsApp number -->
+      <a href="https://wa.me/212600000000" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
+        <div class="contact-icon">💬</div>
+        <div class="contact-lbl">WhatsApp</div>
+        <div class="contact-val">+212 6 XX XX XX XX</div>
+      </a>
+      <!-- EDIT: Instagram username -->
+      <a href="https://instagram.com/yourusername" target="_blank" rel="noopener noreferrer" class="contact-card reveal reveal-delay-1">
+        <div class="contact-icon">📸</div>
+        <div class="contact-lbl">Instagram</div>
+        <div class="contact-val">@yourusername</div>
+      </a>
+      <!-- EDIT: Email address -->
+      <a href="mailto:yourname@email.com" class="contact-card reveal reveal-delay-2">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-lbl">Email</div>
+        <div class="contact-val">yourname@email.com</div>
+      </a>
+    </div>
+
+    <!-- EDIT: WhatsApp number in the link below -->
+    <a href="https://wa.me/212600000000" target="_blank" rel="noopener noreferrer" class="wa-btn reveal reveal-delay-3">
+      <span>💬</span> Contact on WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <!-- EDIT: Your name in footer -->
+  <p>© 2024 <span>Your Name</span> · Graphic Designer · Made with ❤️</p>
+</footer>
+
+<!-- Back to top -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- Admin Panel Toggle -->
+<button id="admin-toggle" onclick="toggleAdmin()">⚙ Admin</button>
+
+<!-- Admin Panel -->
+<div class="admin-panel" id="admin-panel">
+  <div class="admin-title">🔧 Link Manager</div>
+  <div class="admin-sub">Add or edit design links for portfolio items</div>
+  <select class="admin-item-select" id="admin-select" onchange="adminSelectChange()">
+    <option value="">— Select a portfolio item —</option>
+    <option value="sm-1">Social Media · Back to School Promo</option>
+    <option value="sm-2">Social Media · Special Book Offer</option>
+    <option value="sm-3">Social Media · Library Instagram Post</option>
+    <option value="eb-1">Ebook · Cover Design</option>
+    <option value="eb-2">Ebook · Interior Page Layout</option>
+    <option value="kids-1">Kids Story · The Brave Little Lion</option>
+    <option value="kids-2">Kids Story · Lina and the Magic Book</option>
+    <option value="kids-3">Kids Story · My First Alphabet Story</option>
+    <option value="doc-1">Research · Cover Page</option>
+    <option value="doc-2">Research · Table of Contents</option>
+    <option value="doc-3">Research · Professional Report</option>
+    <option value="print-1">Print · Flyer Design</option>
+    <option value="print-2">Print · Business Card</option>
+    <option value="print-3">Print · Sticker Design</option>
+    <option value="print-4">Print · Mini Catalogue</option>
+  </select>
+  <input class="admin-input" type="url" id="admin-link-input" placeholder="Paste design link (Canva, Behance, Drive…)" />
+  <div id="admin-current-link-box" class="admin-current-link" style="display:none;"></div>
+  <div class="admin-btn-row">
+    <button class="admin-save" onclick="adminSaveLink()">💾 Save Link</button>
+    <button class="admin-clear" onclick="adminClearLink()">🗑 Remove</button>
+  </div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal(null,true)">✕</button>
+    <span class="modal-icon" id="modal-icon">🎨</span>
+    <div class="modal-cat" id="modal-cat"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <p class="modal-no-link">No design link added yet. Use the Admin panel to add a link.</p>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA: Portfolio items info
+   ============================================================ */
+const PORTFOLIO_DATA = {
+  'sm-1':    { icon:'📚', cat:'Social Media', title:'Back to School Promo',    desc:'Vibrant promotional post designed for the back-to-school season.' },
+  'sm-2':    { icon:'🎁', cat:'Social Media', title:'Special Book Offer',       desc:'Eye-catching offer post to promote book discounts and deals.' },
+  'sm-3':    { icon:'📸', cat:'Social Media', title:'Library Instagram Post',   desc:'Story-style post to engage followers and drive library visits.' },
+  'eb-1':    { icon:'📖', cat:'Ebook Design', title:'Ebook Cover Design',       desc:'Elegant and professional ebook cover for educational content.' },
+  'eb-2':    { icon:'📄', cat:'Ebook Design', title:'Interior Page Layout',     desc:'Clean two-column interior layout designed for easy reading.' },
+  'kids-1':  { icon:'🦁', cat:'Kids Story',   title:'The Brave Little Lion',    desc:'Warm and colorful story about courage and friendship for young readers.' },
+  'kids-2':  { icon:'✨', cat:'Kids Story',   title:'Lina and the Magic Book',  desc:'Magical adventure that inspires children to love reading.' },
+  'kids-3':  { icon:'🔤', cat:'Kids Story',   title:'My First Alphabet Story',  desc:'Fun and educational ABC book for early childhood learning.' },
+  'doc-1':   { icon:'📑', cat:'Research',     title:'Research Cover Page',      desc:'Professional academic cover page with elegant typography.' },
+  'doc-2':   { icon:'📋', cat:'Research',     title:'Table of Contents',        desc:'Organized and clean TOC layout for long-form documents.' },
+  'doc-3':   { icon:'📊', cat:'Research',     title:'Professional Report Layout', desc:'Structured report design for business and academic purposes.' },
+  'print-1': { icon:'📢', cat:'Print Design', title:'Flyer Design',             desc:'Bold promotional flyer ready for physical and digital use.' },
+  'print-2': { icon:'💳', cat:'Print Design', title:'Business Card',            desc:'Luxury dark-themed business card with purple gradient design.' },
+  'print-3': { icon:'⭐', cat:'Print Design', title:'Sticker Design',           desc:'Fun circular sticker set for branding and promotional use.' },
+  'print-4': { icon:'📚', cat:'Print Design', title:'Mini Catalogue / Menu',    desc:'Compact and elegant catalogue layout for library book display.' },
+};
+
+/* Load links from localStorage */
+function getLinks() {
+  try { return JSON.parse(localStorage.getItem('portfolio_links') || '{}'); } catch { return {}; }
+}
+function saveLinks(links) {
+  localStorage.setItem('portfolio_links', JSON.stringify(links));
+}
+function validateURL(url) {
+  if (!url) return '';
+  url = url.trim();
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+  return url;
+}
+
+/* Update link indicators on page */
+function updateIndicators() {
+  const links = getLinks();
+  Object.keys(PORTFOLIO_DATA).forEach(id => {
+    const el = document.getElementById('ind-' + id);
+    if (el) {
+      if (links[id]) {
+        el.className = 'link-indicator';
+        el.title = 'Design link available';
+      } else {
+        el.className = 'no-link-indicator';
+        el.title = 'No link yet';
+      }
+    }
+  });
+}
+
+/* Handle portfolio card click */
+function handleCardClick(id) {
+  const links = getLinks();
+  const link = links[id];
+  if (link) {
+    window.open(link, '_blank', 'noopener,noreferrer');
+  } else {
+    openModal(id);
+  }
+}
+
+/* Modal */
+function openModal(id) {
+  const data = PORTFOLIO_DATA[id];
+  if (!data) return;
+  document.getElementById('modal-icon').textContent = data.icon;
+  document.getElementById('modal-cat').textContent = data.cat;
+  document.getElementById('modal-title').textContent = data.title;
+  document.getElementById('modal-desc').textContent = data.desc;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e, force) {
+  if (force || !e || e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(null, true); });
+
+/* Admin Panel */
+function toggleAdmin() {
+  document.getElementById('admin-panel').classList.toggle('open');
+}
+function adminSelectChange() {
+  const id = document.getElementById('admin-select').value;
+  const links = getLinks();
+  const box = document.getElementById('admin-current-link-box');
+  if (id && links[id]) {
+    document.getElementById('admin-link-input').value = links[id];
+    box.textContent = '✓ Current: ' + links[id];
+    box.style.display = 'block';
+  } else {
+    document.getElementById('admin-link-input').value = '';
+    box.style.display = 'none';
+  }
+}
+function adminSaveLink() {
+  const id = document.getElementById('admin-select').value;
+  const raw = document.getElementById('admin-link-input').value;
+  if (!id) { alert('Please select a portfolio item first.'); return; }
+  const url = validateURL(raw);
+  if (!url) { alert('Please enter a valid URL.'); return; }
+  const links = getLinks();
+  links[id] = url;
+  saveLinks(links);
+  updateIndicators();
+  const box = document.getElementById('admin-current-link-box');
+  box.textContent = '✓ Saved: ' + url;
+  box.style.display = 'block';
+  document.getElementById('admin-link-input').value = url;
+}
+function adminClearLink() {
+  const id = document.getElementById('admin-select').value;
+  if (!id) return;
+  const links = getLinks();
+  delete links[id];
+  saveLinks(links);
+  updateIndicators();
+  document.getElementById('admin-link-input').value = '';
+  document.getElementById('admin-current-link-box').style.display = 'none';
+}
+
+/* Portfolio tabs */
+function showTab(tab) {
+  document.querySelectorAll('.portfolio-category').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const catId = tab === 'all' ? 'cat-all' : 'cat-' + tab;
+  document.getElementById(catId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ============================================================
+   TYPING ANIMATION
+   ============================================================ */
+const phrases = [
+  "I create beautiful designs for libraries, books, children stories, and digital content.",
+  "Professional social media posts that attract more customers.",
+  "Colorful kids story designs that spark young imaginations.",
+  "Print-ready materials your bookshop will love.",
+];
+let phraseIndex = 0, charIndex = 0, deleting = false;
+function type() {
+  const el = document.getElementById('typing-text');
+  if (!el) return;
+  const phrase = phrases[phraseIndex];
+  if (deleting) {
+    el.textContent = phrase.substring(0, charIndex--);
+    if (charIndex < 0) { deleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; setTimeout(type, 500); return; }
+    setTimeout(type, 30);
+  } else {
+    el.textContent = phrase.substring(0, charIndex++);
+    if (charIndex > phrase.length) { deleting = true; setTimeout(type, 2000); return; }
+    setTimeout(type, 55);
+  }
+}
+setTimeout(type, 1000);
+
+/* ============================================================
+   SCROLL ANIMATIONS
+   ============================================================ */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => revealObs.observe(el));
+
+/* Progress bar */
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('progress-bar').style.width = (scrollTop / docHeight * 100) + '%';
+  document.getElementById('back-top').classList.toggle('visible', scrollTop > 400);
+  document.getElementById('navbar').classList.toggle('scrolled', scrollTop > 60);
+});
+
+/* ============================================================
+   CURSOR
+   ============================================================ */
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursor-trail');
+let mx = 0, my = 0, tx = 0, ty = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+(function animTrail() {
+  tx += (mx - tx) * 0.18; ty += (my - ty) * 0.18;
+  trail.style.left = tx + 'px'; trail.style.top = ty + 'px';
+  requestAnimationFrame(animTrail);
+})();
+document.querySelectorAll('a,button,.portfolio-card,.service-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; trail.style.transform = 'translate(-50%,-50%) scale(1.5)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; trail.style.transform = 'translate(-50%,-50%) scale(1)'; });
+});
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+});
+document.querySelectorAll('.mobile-link').forEach(l => {
+  l.addEventListener('click', () => { hamburger.classList.remove('active'); mobileMenu.classList.remove('open'); });
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+updateIndicators();
+
+/* Portfolio card stagger animation */
+document.querySelectorAll('.portfolio-card').forEach((card, i) => {
+  card.style.animationDelay = (i * 0.07) + 's';
+});
+</script>
+</body>
+</html>
